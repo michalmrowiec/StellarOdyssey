@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PickUpController : MonoBehaviour
 {
@@ -10,12 +12,17 @@ public class PickUpController : MonoBehaviour
     public float pickUpRange = 1f;
     public bool equiped;
     public LayerMask targetLayer;
+    public LayerMask obstructionLayer;
     public Transform weaponContainer;
+
+    public Vector3 weaponScaleOffset = Vector3.one;
+    public Vector3 weaponPositionOffset = Vector3.zero;
+    public Quaternion weaponRotationOffset = Quaternion.Euler(Vector3.zero);
 
     void Start()
     {
         weapon = GetComponent<Weapon>();
-        //playerRef = GameObject.FindGameObjectWithTag("Player");
+        Debug.Log(owner);
     }
 
     private void Update()
@@ -28,11 +35,17 @@ public class PickUpController : MonoBehaviour
             {
                 Transform target = rangeCheck[0].transform;
                 Vector2 directionToTarget = (target.position - transform.position).normalized;
-                if (directionToTarget.sqrMagnitude <= pickUpRange && Input.GetKeyDown(KeyCode.E))
-                {
-                    owner = target.gameObject;
-                    PickUp();
-                }
+
+
+                float distanceToTarget = Vector2.Distance(transform.position, target.position);
+
+                if (!Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer))
+                    if (directionToTarget.sqrMagnitude <= pickUpRange
+                                        && Input.GetKeyDown(KeyCode.E))
+                    {
+                        owner = target.gameObject;
+                        PickUp();
+                    }
             }
         }
 
@@ -53,20 +66,21 @@ public class PickUpController : MonoBehaviour
         Debug.Log(weaponContainer.gameObject.name);
 
         transform.SetParent(weaponContainer.transform);
-        transform.localScale = Vector3.one;
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.Euler(Vector3.zero);
+        transform.localScale = weapon.transform.localScale; //weaponScaleOffset;
+        transform.localPosition = weaponPositionOffset;
+        transform.localRotation = weaponRotationOffset;
 
         owner.GetComponent<PlayerController>().weapon = weapon;
     }
 
     private void Drop()
     {
-        Debug.Log("Drop");
         transform.SetParent(null);
         weaponContainer = null;
+
         owner.GetComponent<PlayerController>().weapon = null;
         equiped = false;
+
     }
 
     private void OnDrawGizmos()

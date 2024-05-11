@@ -123,6 +123,13 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
+  obstructionLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  weaponContainer: {fileID: 0}
+  weaponScaleOffset: {x: 1, y: 1, z: 1}
+  weaponPositionOffset: {x: 0, y: 0, z: 0}
+  weaponRotationOffset: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &6014728725515314752
 GameObject:
   m_ObjectHideFlags: 0
