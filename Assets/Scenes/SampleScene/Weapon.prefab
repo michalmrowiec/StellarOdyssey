@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5953565720801723210}
   - component: {fileID: 6353660323464806774}
   - component: {fileID: 227863886803162563}
+  - component: {fileID: -3231488772551741669}
   m_Layer: 8
   m_Name: Weapon
   m_TagString: Untagged
@@ -101,6 +102,27 @@ MonoBehaviour:
   bullet: {fileID: 7448967043906644292, guid: b0c89d82d530e8f4d8a70ee4ad9d097c, type: 3}
   firePoint: {fileID: 6885065787498879013}
   fireForce: 30
+  fireRate: 0.2
+  nextFireTime: 0
+--- !u!114 &-3231488772551741669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099948359486401649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fffd20417ce56b249be45fc9330620a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 0}
+  owner: {fileID: 0}
+  pickUpRange: 1
+  equiped: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &6014728725515314752
 GameObject:
   m_ObjectHideFlags: 0
