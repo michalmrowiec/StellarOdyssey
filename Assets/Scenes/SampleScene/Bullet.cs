@@ -18,6 +18,9 @@ public class Bullet : MonoBehaviour
                 //other.gameocj.getcomponen<myenemyscript().takedamage();
                 Destroy(gameObject);
                 break;
+            case "Player":
+                collision.gameObject.GetComponent<PlayerController>().TakeDamage(1);
+                break;
         }
     }
 }

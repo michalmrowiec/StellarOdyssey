@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     public Rigidbody2D rb;
     public Weapon weapon;
+    public int healthPoints = 1;
 
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
@@ -22,6 +23,16 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+    }
+
+    public void TakeDamage(int damage = 1)
+    {
+        healthPoints -= damage;
+
+        if (healthPoints <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void PrecessInputs()

@@ -8,7 +8,7 @@ public class EnemyControll : MonoBehaviour
     public Rigidbody2D rb;
     public float moveSpeed = 2f;
     public float rotationSpeed = 1f;
-    public int health = 1;
+    public int healthPoints = 1;
     public Weapon weapon;
     private FieldOfView fov;
 
@@ -53,9 +53,9 @@ public class EnemyControll : MonoBehaviour
 
     public void TakeDamage(int damage = 1)
     {
-        health -= damage;
+        healthPoints -= damage;
 
-        if (health <= 0)
+        if (healthPoints <= 0)
         {
             Destroy(gameObject);
         }
