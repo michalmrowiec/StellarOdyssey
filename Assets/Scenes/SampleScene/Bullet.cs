@@ -8,14 +8,15 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        switch(collision.gameObject.tag)
+        switch (collision.gameObject.tag)
         {
             case "Wall":
                 Destroy(gameObject);
                 break;
             case "Enemy":
+                collision.gameObject.GetComponent<EnemyControll>().TakeDamage(1);
                 //other.gameocj.getcomponen<myenemyscript().takedamage();
-                Destroy (gameObject);
+                Destroy(gameObject);
                 break;
         }
     }
