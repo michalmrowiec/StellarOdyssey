@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Animator animator;
     public Camera sceneCamera;
     public float moveSpeed;
     public Rigidbody2D rb;
@@ -18,6 +19,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         PrecessInputs();
+
+        animator.SetFloat("Walk", Mathf.Abs(_moveDirection.x + _moveDirection.y));
+        animator.SetFloat("Speed", _moveDirection.sqrMagnitude);
     }
 
     private void FixedUpdate()
@@ -40,7 +44,7 @@ public class PlayerController : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             weapon.Fire();
         }
