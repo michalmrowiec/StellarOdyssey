@@ -22,7 +22,7 @@ public class PickUpController : MonoBehaviour
     void Start()
     {
         weapon = GetComponent<Weapon>();
-        Debug.Log(owner);
+        //Debug.Log(owner);
     }
 
     private void Update()
