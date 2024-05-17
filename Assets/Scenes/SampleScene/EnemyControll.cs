@@ -1,6 +1,5 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -46,14 +45,14 @@ public class EnemyControll : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.destination = patrolPoints[patrolDestination].position;
+        agent.destination = patrolPoints[PatrolDestination].position;
 
 
-        // Oblicz k¹t miêdzy obecn¹ pozycj¹ wroga a pierwszym punktem patrolowania
+        // Oblicz kÄ…t miÄ™dzy obecnÄ… pozycjÄ… wroga a pierwszym punktem patrolowania
         //Vector2 directionToFirstPatrolPoint = (patrolPoints[0].position - transform.position).normalized;
         //float targetAngle = Mathf.Atan2(directionToFirstPatrolPoint.y, directionToFirstPatrolPoint.x) * Mathf.Rad2Deg - 90;
 
-        // Obróæ wroga w kierunku pierwszego punktu patrolowania
+        // ObrÃ³Ä‡ wroga w kierunku pierwszego punktu patrolowania
         //rb.rotation = targetAngle;
 
         //StartCoroutine(Patrol());
@@ -62,7 +61,7 @@ public class EnemyControll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!fov.CanSeePlayer)
+        if (!fov.CanSeePlayer)
         {
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
@@ -70,25 +69,41 @@ public class EnemyControll : MonoBehaviour
             }
 
             // Obracanie obiektu w kierunku ruchu
-            if (agent.velocity.magnitude > 0.1f) // Jeœli obiekt siê porusza
+            if (agent.velocity.magnitude > 0.1f) // JeÅ“li obiekt siÃª porusza
             {
                 float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
                 float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
                 rb.rotation = angle;
             }
+
+            // WznÃ³w ruch agenta
+            if (agent.isStopped)
+            {
+                agent.isStopped = false;
+            }
         }
         else
         {
+            // Zatrzymaj ruch agenta
+            if (!agent.isStopped)
+            {
+                agent.isStopped = true;
+            }
+
             NoticedPlayer();
         }
     }
 
+
     void GotoNextPoint()
     {
-        if (patrolPoints.Count == 0)
-            return;
-        agent.destination = patrolPoints[patrolDestination].position;
-        patrolDestination = (patrolDestination + 1) % patrolPoints.Count;
+        //if (patrolPoints.Count == 0)
+           //return;
+        agent.destination = patrolPoints[PatrolDestination].position;
+        //PatrolDestination = (PatrolDestination + 1) % patrolPoints.Count;
+        PatrolDestination++;
+        return;
+
     }
 
     IEnumerator Patrol()
@@ -99,13 +114,13 @@ public class EnemyControll : MonoBehaviour
             {
                 if (Vector2.Distance(transform.position, patrolPoints[PatrolDestination].position) < 0.1f)
                 {
-                    // Jeœli tak, przejdŸ do nastêpnego punktu patrolowania
+                    // JeÅ›li tak, przejdÅº do nastÄ™pnego punktu patrolowania
                     PatrolDestination++;
 
-                    // Zatrzymaj na chwilê
+                    // Zatrzymaj na chwilÄ™
                     yield return new WaitForSeconds(1); // Zatrzymaj na 2 sekundy
 
-                    // Zacznij obracaæ siê w kierunku nastêpnego punktu patrolowania
+                    // Zacznij obracaÄ‡ siÄ™ w kierunku nastÄ™pnego punktu patrolowania
                     isTurning = true;
                 }
                 else if (isTurning)
@@ -114,7 +129,7 @@ public class EnemyControll : MonoBehaviour
                 }
                 else
                 {
-                    // Jeœli nie, kontynuuj ruch do punktu patrolowania
+                    // JeÅ›li nie, kontynuuj ruch do punktu patrolowania
                     transform.position = Vector2.MoveTowards(transform.position, patrolPoints[PatrolDestination].position, patrolSpeed * Time.deltaTime);
                 }
             }
@@ -135,15 +150,15 @@ public class EnemyControll : MonoBehaviour
     {
         isTurning = true;
 
-        // Oblicz k¹t miêdzy obecn¹ pozycj¹ wroga a punktem patrolowania
+        // Oblicz kÄ…t miÄ™dzy obecnÄ… pozycjÄ… wroga a punktem patrolowania
         Vector2 directionToTarget = (targett - transform.position).normalized;
         float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg - 90;
 
-        // Obróæ wroga w kierunku punktu patrolowania
+        // ObrÃ³Ä‡ wroga w kierunku punktu patrolowania
         float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeedd);
         rb.rotation = angle;
 
-        // SprawdŸ, czy wróg jest ju¿ skierowany w kierunku punktu patrolowania
+        // SprawdÅº, czy wrÃ³g jest juÅ¼ skierowany w kierunku punktu patrolowania
         if (Mathf.Abs(Mathf.DeltaAngle(rb.rotation, targetAngle)) < 0.1f)
         {
             isTurning = false;

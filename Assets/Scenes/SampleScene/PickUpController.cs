@@ -58,12 +58,12 @@ public class PickUpController : MonoBehaviour
     private void PickUp()
     {
         equiped = true;
-        Debug.Log("PickUp");
-        Debug.Log(owner.gameObject.name);
+        //Debug.Log("PickUp");
+        //Debug.Log(owner.gameObject.name);
 
         weaponContainer = owner.transform.Find("WeaponContainer");
 
-        Debug.Log(weaponContainer.gameObject.name);
+        //Debug.Log(weaponContainer.gameObject.name);
 
         transform.SetParent(weaponContainer.transform);
         transform.localScale = weapon.transform.localScale; //weaponScaleOffset;

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -15,11 +13,11 @@ public class Bullet : MonoBehaviour
                 break;
             case "Enemy":
                 collision.gameObject.GetComponent<EnemyControll>().TakeDamage(1);
-                //other.gameocj.getcomponen<myenemyscript().takedamage();
                 Destroy(gameObject);
                 break;
             case "Player":
                 collision.gameObject.GetComponent<PlayerController>().TakeDamage(1);
+                Destroy(gameObject);
                 break;
         }
     }
