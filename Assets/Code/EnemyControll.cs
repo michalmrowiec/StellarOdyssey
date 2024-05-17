@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,34 +30,21 @@ public class EnemyControll : MonoBehaviour
     public int healthPoints = 1;
     public Weapon weapon;
     private FieldOfView fov;
-    private bool canSeePlayer;
 
     public NavMeshAgent agent;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        fov = gameObject.GetComponent<FieldOfView>();
-
+        fov = GetComponent<FieldOfView>();
+        weapon = GetComponentInChildren<Weapon>();// .GetComponent<Weapon>();
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         agent.destination = patrolPoints[PatrolDestination].position;
-
-
-        // Oblicz kąt między obecną pozycją wroga a pierwszym punktem patrolowania
-        //Vector2 directionToFirstPatrolPoint = (patrolPoints[0].position - transform.position).normalized;
-        //float targetAngle = Mathf.Atan2(directionToFirstPatrolPoint.y, directionToFirstPatrolPoint.x) * Mathf.Rad2Deg - 90;
-
-        // Obróć wroga w kierunku pierwszego punktu patrolowania
-        //rb.rotation = targetAngle;
-
-        //StartCoroutine(Patrol());
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!fov.CanSeePlayer)
@@ -76,7 +62,6 @@ public class EnemyControll : MonoBehaviour
                 rb.rotation = angle;
             }
 
-            // Wznów ruch agenta
             if (agent.isStopped)
             {
                 agent.isStopped = false;
@@ -84,7 +69,6 @@ public class EnemyControll : MonoBehaviour
         }
         else
         {
-            // Zatrzymaj ruch agenta
             if (!agent.isStopped)
             {
                 agent.isStopped = true;
@@ -97,53 +81,11 @@ public class EnemyControll : MonoBehaviour
 
     void GotoNextPoint()
     {
-        //if (patrolPoints.Count == 0)
-           //return;
         agent.destination = patrolPoints[PatrolDestination].position;
-        //PatrolDestination = (PatrolDestination + 1) % patrolPoints.Count;
         PatrolDestination++;
+
         return;
 
-    }
-
-    IEnumerator Patrol()
-    {
-        while (true)
-        {
-            if (!fov.CanSeePlayer)
-            {
-                if (Vector2.Distance(transform.position, patrolPoints[PatrolDestination].position) < 0.1f)
-                {
-                    // Jeśli tak, przejdź do następnego punktu patrolowania
-                    PatrolDestination++;
-
-                    // Zatrzymaj na chwilę
-                    yield return new WaitForSeconds(1); // Zatrzymaj na 2 sekundy
-
-                    // Zacznij obracać się w kierunku następnego punktu patrolowania
-                    isTurning = true;
-                }
-                else if (isTurning)
-                {
-                    TurnInDirection(patrolPoints[PatrolDestination].position, rotationSpeed);
-                }
-                else
-                {
-                    // Jeśli nie, kontynuuj ruch do punktu patrolowania
-                    transform.position = Vector2.MoveTowards(transform.position, patrolPoints[PatrolDestination].position, patrolSpeed * Time.deltaTime);
-                }
-            }
-            else
-            {
-                TurnInDirection(fov.playerRef.transform.position, rotationSpeed);
-
-                transform.position = Vector2.MoveTowards(transform.position, fov.playerRef.transform.position, patrolSpeed * Time.deltaTime);
-
-                weapon.Fire();
-            }
-
-            yield return null;
-        }
     }
 
     public void TurnInDirection(Vector3 targett, float rotationSpeedd)
@@ -175,24 +117,7 @@ public class EnemyControll : MonoBehaviour
 
         transform.position = Vector2.MoveTowards(transform.position, fov.playerRef.transform.position, moveSpeed * Time.deltaTime);
 
-        //rb.velocity = directionToPlayer * moveSpeed;
-
         weapon.Fire();
-    }
-
-    private void FixedUpdate()
-    {
-        canSeePlayer = fov.CanSeePlayer;
-
-        if (fov.CanSeePlayer)
-        {
-            //NoticedPlayer();
-        }
-        else
-        {
-            //Vector2 direction = transform.up;
-            //rb.velocity = direction * moveSpeed;
-        }
     }
 
     public void TakeDamage(int damage = 1)

@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PickUpController : MonoBehaviour
 {
@@ -22,7 +17,6 @@ public class PickUpController : MonoBehaviour
     void Start()
     {
         weapon = GetComponent<Weapon>();
-        //Debug.Log(owner);
     }
 
     private void Update()
@@ -58,15 +52,11 @@ public class PickUpController : MonoBehaviour
     private void PickUp()
     {
         equiped = true;
-        //Debug.Log("PickUp");
-        //Debug.Log(owner.gameObject.name);
 
         weaponContainer = owner.transform.Find("WeaponContainer");
 
-        //Debug.Log(weaponContainer.gameObject.name);
-
         transform.SetParent(weaponContainer.transform);
-        transform.localScale = weapon.transform.localScale; //weaponScaleOffset;
+        transform.localScale = weapon.transform.localScale;
         transform.localPosition = weaponPositionOffset;
         transform.localRotation = weaponRotationOffset;
 
@@ -80,7 +70,6 @@ public class PickUpController : MonoBehaviour
 
         owner.GetComponent<PlayerController>().weapon = null;
         equiped = false;
-
     }
 
     private void OnDrawGizmos()
