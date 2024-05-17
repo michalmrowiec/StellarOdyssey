@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 5688241802542939390}
   sceneCamera: {fileID: 0}
-  moveSpeed: 5.17
+  moveSpeed: 5.5
   rb: {fileID: 8326792321613881609}
   weapon: {fileID: 0}
   healthPoints: 210

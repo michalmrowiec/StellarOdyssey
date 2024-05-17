@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
 
-
     // Update is called once per frame
     void Update()
     {

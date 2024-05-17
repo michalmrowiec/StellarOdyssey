@@ -4,7 +4,7 @@ public class PickUpController : MonoBehaviour
 {
     public Weapon weapon;
     public GameObject owner;
-    public float pickUpRange = 1f;
+    public float pickUpRange = 1.5f;
     public bool equiped;
     public LayerMask targetLayer;
     public LayerMask obstructionLayer;
