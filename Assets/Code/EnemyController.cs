@@ -30,8 +30,8 @@ public class EnemyController : MonoBehaviour
     public int healthPoints = 1;
     public WeaponOwner weaponOwner;
     private FieldOfView fov;
-
     public NavMeshAgent agent;
+    public Animator animator;
 
     void Start()
     {
@@ -42,11 +42,16 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        agent.destination = patrolPoints[PatrolDestination].position;
+        if (patrolPoints.Count > 0)
+        {
+            agent.destination = patrolPoints[PatrolDestination].position;
+        }
     }
 
     void Update()
     {
+        animator.SetFloat("Speed", (rb.velocity.magnitude + agent.velocity.magnitude));
+
         if (!fov.CanSeePlayer)
         {
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
@@ -81,11 +86,13 @@ public class EnemyController : MonoBehaviour
 
     void GotoNextPoint()
     {
+        if (patrolPoints.Count == 0)
+            return;
+
         agent.destination = patrolPoints[PatrolDestination].position;
         PatrolDestination++;
 
         return;
-
     }
 
     public void TurnInDirection(Vector3 targett, float rotationSpeedd)
@@ -117,7 +124,10 @@ public class EnemyController : MonoBehaviour
 
         transform.position = Vector2.MoveTowards(transform.position, fov.playerRef.transform.position, moveSpeed * Time.deltaTime);
 
-        weaponOwner.weapon.Fire();
+        if (weaponOwner.weapon != null)
+        {
+            weaponOwner.weapon.Fire();
+        }
     }
 
     public void TakeDamage(int damage = 1)
