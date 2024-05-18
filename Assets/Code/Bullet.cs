@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
                 break;
             case "Enemy":
-                collision.gameObject.GetComponent<EnemyControll>().TakeDamage(1);
+                collision.gameObject.GetComponent<EnemyController>().TakeDamage(1);
                 Destroy(gameObject);
                 break;
             case "Player":

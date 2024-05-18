@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 607649370960226392}
   - component: {fileID: 8326792321613881609}
   - component: {fileID: 3332988290934393481}
+  - component: {fileID: 5539474640612080979}
   - component: {fileID: 1697048429661568479}
   - component: {fileID: 5688241802542939390}
   m_Layer: 8
@@ -165,6 +166,20 @@ MonoBehaviour:
   rb: {fileID: 8326792321613881609}
   weapon: {fileID: 0}
   healthPoints: 210
+--- !u!114 &5539474640612080979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9039838102530162895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91bed4d3110490f4a945a19c036843f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 0}
+  weaponContainer: {fileID: 0}
 --- !u!61 &1697048429661568479
 BoxCollider2D:
   m_ObjectHideFlags: 0

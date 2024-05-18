@@ -3,12 +3,12 @@ using UnityEngine;
 public class PickUpController : MonoBehaviour
 {
     public Weapon weapon;
-    public GameObject owner;
+    //public Transform weaponContainer;
+    public WeaponOwner owner;
     public float pickUpRange = 1.5f;
     public bool equiped;
     public LayerMask targetLayer;
     public LayerMask obstructionLayer;
-    public Transform weaponContainer;
 
     public Vector3 weaponScaleOffset = Vector3.one;
     public Vector3 weaponPositionOffset = Vector3.zero;
@@ -17,6 +17,13 @@ public class PickUpController : MonoBehaviour
     void Start()
     {
         weapon = GetComponent<Weapon>();
+
+        if(equiped)
+        {
+            //weaponContainer = gameObject.GetComponentInParent<WeaponOwner>().weaponContainer;
+            owner = gameObject.GetComponentInParent<WeaponOwner>();
+            owner.weapon = weapon;
+        }
     }
 
     private void Update()
@@ -37,13 +44,16 @@ public class PickUpController : MonoBehaviour
                     if (directionToTarget.sqrMagnitude <= pickUpRange
                                         && Input.GetKeyDown(KeyCode.E))
                     {
-                        owner = target.gameObject;
+                        owner = target.gameObject.GetComponent<WeaponOwner>();
                         PickUp();
                     }
             }
         }
 
-        if (equiped && weaponContainer != null && Input.GetKeyDown(KeyCode.Q))
+        if (equiped
+            && owner.weapon != null
+            && owner.OwnerIsPlayer
+            && Input.GetKeyDown(KeyCode.Q))
         {
             Drop();
         }
@@ -52,23 +62,31 @@ public class PickUpController : MonoBehaviour
     private void PickUp()
     {
         equiped = true;
+        owner.weapon = weapon;
 
-        weaponContainer = owner.transform.Find("WeaponContainer");
+        //weaponContainer = owner.transform.Find("WeaponContainer");
 
-        transform.SetParent(weaponContainer.transform);
-        transform.localScale = weapon.transform.localScale;
-        transform.localPosition = weaponPositionOffset;
-        transform.localRotation = weaponRotationOffset;
+        //owner.weaponContainer = owner.weaponContainer;
 
-        owner.GetComponent<PlayerController>().weapon = weapon;
+        weapon.transform.SetParent(owner.weaponContainer);
+        weapon.transform.localScale = weapon.transform.localScale;
+        weapon.transform.localPosition = weaponPositionOffset;
+        weapon.transform.localRotation = weaponRotationOffset;
+
+        //transform.SetParent(owner.weaponContainer);
+        //transform.localScale = weapon.transform.localScale;
+        //transform.localPosition = weaponPositionOffset;
+        //transform.localRotation = weaponRotationOffset;
     }
 
-    private void Drop()
+    public void Drop()
     {
-        transform.SetParent(null);
-        weaponContainer = null;
+        weapon.transform.SetParent(null);
+        //transform.SetParent(null);
+        //owner.weaponContainer = null;
 
-        owner.GetComponent<PlayerController>().weapon = null;
+        owner.weapon = null;
+        owner = null;
         equiped = false;
     }
 

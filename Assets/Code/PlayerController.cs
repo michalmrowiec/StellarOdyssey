@@ -6,13 +6,17 @@ public class PlayerController : MonoBehaviour
     public Camera sceneCamera;
     public float moveSpeed;
     public Rigidbody2D rb;
-    public Weapon weapon;
+    public WeaponOwner weaponOwner;
     public int healthPoints = 1;
 
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        weaponOwner = GetComponentInChildren<WeaponOwner>();
+    }
+
     void Update()
     {
         PrecessInputs();
@@ -41,9 +45,9 @@ public class PlayerController : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveY = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && weaponOwner.weapon != null)
         {
-            weapon.Fire();
+            weaponOwner.weapon.Fire();
         }
 
         _moveDirection = new Vector2(moveX, moveY);

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyControll : MonoBehaviour
+public class EnemyController : MonoBehaviour
 {
     public List<Transform> patrolPoints;
     private int patrolDestination;
@@ -21,14 +21,14 @@ public class EnemyControll : MonoBehaviour
             }
         }
     }
-    public float patrolSpeed;
+    public float patrolSpeed = 1.5f;
     private bool isTurning;
 
     public Rigidbody2D rb;
     public float moveSpeed = 2f;
     public float rotationSpeed = 1f;
     public int healthPoints = 1;
-    public Weapon weapon;
+    public WeaponOwner weaponOwner;
     private FieldOfView fov;
 
     public NavMeshAgent agent;
@@ -37,7 +37,7 @@ public class EnemyControll : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         fov = GetComponent<FieldOfView>();
-        weapon = GetComponentInChildren<Weapon>();// .GetComponent<Weapon>();
+        weaponOwner = GetComponentInChildren<WeaponOwner>();
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -117,7 +117,7 @@ public class EnemyControll : MonoBehaviour
 
         transform.position = Vector2.MoveTowards(transform.position, fov.playerRef.transform.position, moveSpeed * Time.deltaTime);
 
-        weapon.Fire();
+        weaponOwner.weapon.Fire();
     }
 
     public void TakeDamage(int damage = 1)

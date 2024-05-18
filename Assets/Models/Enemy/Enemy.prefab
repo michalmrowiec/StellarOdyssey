@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7940235500324243275}
   - component: {fileID: 8937762586840674765}
   - component: {fileID: 1021929180774985277}
+  - component: {fileID: 442721008998376101}
   - component: {fileID: 6588890275801646641}
   - component: {fileID: 1946666402106193052}
   - component: {fileID: 4149194354400731141}
@@ -144,17 +145,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 7762303799018655612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b7e09938df6874b92acc504fd10401, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d4ca0dbb6018574ebabcfb1c2f948a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   patrolPoints: []
-  patrolSpeed: 2
-  rb: {fileID: 6588890275801646641}
-  moveSpeed: 3
+  patrolSpeed: 1.5
+  rb: {fileID: 0}
+  moveSpeed: 2
   rotationSpeed: 7
   healthPoints: 1
-  weapon: {fileID: 0}
+  weaponOwner: {fileID: 0}
   agent: {fileID: 0}
+--- !u!114 &442721008998376101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762303799018655612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91bed4d3110490f4a945a19c036843f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 0}
+  weaponContainer: {fileID: 0}
 --- !u!50 &6588890275801646641
 Rigidbody2D:
   serializedVersion: 4
