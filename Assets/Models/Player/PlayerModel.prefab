@@ -164,8 +164,8 @@ MonoBehaviour:
   sceneCamera: {fileID: 0}
   moveSpeed: 5.5
   rb: {fileID: 8326792321613881609}
-  weapon: {fileID: 0}
-  healthPoints: 210
+  weaponOwner: {fileID: 0}
+  healthPoints: 1
 --- !u!114 &5539474640612080979
 MonoBehaviour:
   m_ObjectHideFlags: 0
