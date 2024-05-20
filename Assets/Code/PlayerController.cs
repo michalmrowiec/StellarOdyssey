@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
+    public Vector2 weaponOffset;
 
     private void Start()
     {
@@ -58,7 +59,8 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
 
-        Vector2 aimDirection = _mousePosition - rb.position;
+        Vector2 playerPositionWithOffset = new Vector2(rb.position.x + weaponOffset.x, rb.position.y + weaponOffset.y); // Dodajemy offset
+        Vector2 aimDirection = _mousePosition - playerPositionWithOffset; // Używamy nowej pozycji z offsetem
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = aimAngle;
     }
