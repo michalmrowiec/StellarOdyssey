@@ -63,6 +63,12 @@ public class EnemyController : MonoBehaviour
 
         if (!fov.CanSeePlayer)
         {
+            if (arrived)
+            {
+                float angle = Mathf.LerpAngle(rb.rotation, patrolPoints[PatrolDestination].rotateInDirection, Time.deltaTime * rotationSpeed);
+                rb.rotation = angle;
+            }
+
             if (arrived && !isWait)
             {
                 wait = Time.time + patrolPoints[PatrolDestination].secondWait;
@@ -166,4 +172,6 @@ public class PatrolPoint
     public Transform patrolPoint;
     [SerializeField]
     public float secondWait = 0;
+    [SerializeField]
+    public float rotateInDirection = 0;
 }
