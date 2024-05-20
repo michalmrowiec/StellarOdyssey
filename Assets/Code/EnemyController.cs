@@ -1,17 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class EnemyController : MonoBehaviour
 {
-    public List<Transform> patrolPoints;
-    private int patrolDestination;
+    [SerializeField]
+    public PatrolPoint[] patrolPoints;
+    private float wait = 0;
+    private int patrolDestination = 0;
     public int PatrolDestination
     {
         get => patrolDestination;
         set
         {
-            if (patrolPoints.Count == value)
+            if (patrolPoints.Length == value)
             {
                 patrolDestination = 0;
             }
@@ -33,6 +37,9 @@ public class EnemyController : MonoBehaviour
     public NavMeshAgent agent;
     public Animator animator;
 
+    bool arrived = false;
+    bool isWait = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -42,25 +49,35 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-        if (patrolPoints.Count > 0)
+        if (patrolPoints.Length > 0)
         {
-            agent.destination = patrolPoints[PatrolDestination].position;
+            agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
         }
     }
 
     void Update()
     {
+        arrived = !agent.pathPending && agent.remainingDistance < 0.5f;
+
         animator.SetFloat("Speed", (rb.velocity.magnitude + agent.velocity.magnitude));
 
         if (!fov.CanSeePlayer)
         {
-            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            if (arrived && !isWait)
             {
+                wait = Time.time + patrolPoints[PatrolDestination].secondWait;
+                isWait = true;
+            }
+            else if (arrived && isWait && Time.time > wait)
+            {
+                isWait = false;
+                PatrolDestination++;
                 GotoNextPoint();
             }
 
             // Obracanie obiektu w kierunku ruchu
-            if (agent.velocity.magnitude > 0.1f) // Jeœli obiekt siê porusza
+            if (agent.velocity.magnitude > 0.1f
+                && !arrived) // Jeœli obiekt siê porusza
             {
                 float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
                 float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
@@ -86,11 +103,12 @@ public class EnemyController : MonoBehaviour
 
     void GotoNextPoint()
     {
-        if (patrolPoints.Count == 0)
+        if (patrolPoints.Length == 0)
             return;
 
-        agent.destination = patrolPoints[PatrolDestination].position;
-        PatrolDestination++;
+        agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
+
+        //PatrolDestination++;
 
         return;
     }
@@ -139,4 +157,13 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+}
+
+[Serializable]
+public class PatrolPoint
+{
+    [SerializeField]
+    public Transform patrolPoint;
+    [SerializeField]
+    public float secondWait = 0;
 }
