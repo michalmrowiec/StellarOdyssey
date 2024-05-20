@@ -49,6 +49,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
         if (patrolPoints.Length > 0)
         {
             agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
@@ -63,7 +64,8 @@ public class EnemyController : MonoBehaviour
 
         if (!fov.CanSeePlayer)
         {
-            if (arrived)
+            if (arrived
+                && patrolPoints[PatrolDestination].rotate)
             {
                 float angle = Mathf.LerpAngle(rb.rotation, patrolPoints[PatrolDestination].rotateInDirection, Time.deltaTime * rotationSpeed);
                 rb.rotation = angle;
@@ -111,6 +113,8 @@ public class EnemyController : MonoBehaviour
     {
         if (patrolPoints.Length == 0)
             return;
+
+        agent.speed = patrolSpeed;
 
         agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
 
@@ -171,7 +175,9 @@ public class PatrolPoint
     [SerializeField]
     public Transform patrolPoint;
     [SerializeField]
-    public float secondWait = 0;
+    public float secondWait = 0f;
     [SerializeField]
-    public float rotateInDirection = 0;
+    public bool rotate = false;
+    [SerializeField]
+    public float rotateInDirection = 0f;
 }
