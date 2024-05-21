@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && weaponOwner.weapon != null)
         {
-            weaponOwner.weapon.Fire();
+            weaponOwner.weapon.Fire(Color.blue);
         }
 
         _moveDirection = new Vector2(moveX, moveY);

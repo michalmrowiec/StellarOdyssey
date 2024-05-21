@@ -3,9 +3,12 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public GameObject lightFlashPrefab;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        var lightFlash = Instantiate(lightFlashPrefab, transform.position, Quaternion.identity);
+
         switch (collision.gameObject.tag)
         {
             case "Wall":
@@ -20,5 +23,7 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
                 break;
         }
+
+        Destroy(lightFlash, 0.02f);
     }
 }

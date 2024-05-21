@@ -154,7 +154,7 @@ public class EnemyController : MonoBehaviour
 
         if (weaponOwner.weapon != null)
         {
-            weaponOwner.weapon.Fire();
+            weaponOwner.weapon.Fire(Color.green);
         }
     }
 
