@@ -44,10 +44,17 @@ public class FieldOfView : MonoBehaviour
             {
                 float distanceToTarget = Vector2.Distance(transform.position, target.position);
 
-                if (!Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer))
-                    CanSeePlayer = true;
-                else
-                    CanSeePlayer = false;
+                RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
+                foreach (var hit in hits)
+                {
+                    // If the object notice itself as obstruction, skip them
+                    if (hit.collider.gameObject != this.gameObject)
+                    {
+                        CanSeePlayer = false;
+                        return;
+                    }
+                }
+                CanSeePlayer = true;
             }
             else
                 CanSeePlayer = false;
@@ -55,6 +62,7 @@ public class FieldOfView : MonoBehaviour
         else if (CanSeePlayer)
             CanSeePlayer = false;
     }
+
 
     private void OnDrawGizmos()
     {

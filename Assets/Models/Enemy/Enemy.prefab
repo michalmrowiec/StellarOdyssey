@@ -182,8 +182,8 @@ MonoBehaviour:
     rotate: 0
     rotateInDirection: 0
   patrolSpeed: 1.5
-  timeToRememberPlayerPosition: 2
-  moveSpeed: 2
+  timeToRememberPlayerPosition: 2.5
+  moveSpeed: 2.5
   rotationSpeed: 7
   healthPoints: 1
   rb: {fileID: 0}
@@ -223,7 +223,7 @@ MonoBehaviour:
     m_Bits: 256
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 640
   playerRef: {fileID: 0}
 --- !u!195 &4149194354400731141
 NavMeshAgent:
