@@ -38,7 +38,8 @@ public class PlayerController : MonoBehaviour
 
         if (healthPoints <= 0)
         {
-            Destroy(gameObject);
+            //gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
     }
 
