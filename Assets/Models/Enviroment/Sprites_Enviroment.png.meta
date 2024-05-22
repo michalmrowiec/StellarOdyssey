@@ -262,7 +262,7 @@ TextureImporter:
         serializedVersion: 2
         x: 224
         y: 288
-        width: 32
+        width: 35
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -281,9 +281,9 @@ TextureImporter:
       name: Sprites_Enviroment_8
       rect:
         serializedVersion: 2
-        x: 256
+        x: 259
         y: 288
-        width: 32
+        width: 29
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
