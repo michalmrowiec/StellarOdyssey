@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 public class EnemyController : MonoBehaviour
 {
     [SerializeField]
-    public PatrolPoint[] patrolPoints;
+    public List<PatrolPoint> patrolPoints;
     private float wait = 0;
     private int patrolDestination = 0;
     public int PatrolDestination
@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
         get => patrolDestination;
         set
         {
-            if (patrolPoints.Length == value)
+            if (patrolPoints.Count == value)
             {
                 patrolDestination = 0;
             }
@@ -26,19 +26,18 @@ public class EnemyController : MonoBehaviour
         }
     }
     public float patrolSpeed = 1.5f;
-    private bool isTurning;
-
-    public Rigidbody2D rb;
+    public float timeToRememberPlayerPosition = 2f;
+    private float rememberPlayerPositionClock = 0f;
     public float moveSpeed = 2f;
     public float rotationSpeed = 1f;
     public int healthPoints = 1;
+    public Rigidbody2D rb;
     public WeaponOwner weaponOwner;
     private FieldOfView fov;
     public NavMeshAgent agent;
     public Animator animator;
-
-    bool arrived = false;
-    bool isWait = false;
+    private bool arrived = false;
+    private bool isWait = false;
 
     void Start()
     {
@@ -50,20 +49,41 @@ public class EnemyController : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        if (patrolPoints.Length > 0)
+        if (patrolPoints.Count > 0)
         {
+            agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
+        }
+        else
+        {
+            GameObject point = new GameObject("patrolPoint");
+            point.transform.position = transform.position;
+
+            patrolPoints.Add(
+                new PatrolPoint()
+                {
+                    patrolPoint = point.transform,
+                    rotate = true,
+                    rotateInDirection = transform.rotation.eulerAngles.z % 360,
+                    secondWait = 0f
+                });
+
             agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
         }
     }
 
     void Update()
     {
-        arrived = !agent.pathPending && agent.remainingDistance < 0.5f;
-
         animator.SetFloat("Speed", (rb.velocity.magnitude + agent.velocity.magnitude));
 
-        if (!fov.CanSeePlayer)
+        if (!fov.CanSeePlayer
+            && Time.time > rememberPlayerPositionClock)
         {
+            GotoNextPoint();
+
+            arrived = !agent.pathPending && agent.remainingDistance < 0.5f;
+
+            agent.isStopped = false;
+
             if (arrived
                 && patrolPoints[PatrolDestination].rotate)
             {
@@ -71,7 +91,7 @@ public class EnemyController : MonoBehaviour
                 rb.rotation = angle;
             }
 
-            if (arrived && !isWait)
+            if (arrived && !isWait && patrolPoints[PatrolDestination].secondWait > 0)
             {
                 wait = Time.time + patrolPoints[PatrolDestination].secondWait;
                 isWait = true;
@@ -83,78 +103,75 @@ public class EnemyController : MonoBehaviour
                 GotoNextPoint();
             }
 
-            // Obracanie obiektu w kierunku ruchu
             if (agent.velocity.magnitude > 0.1f
-                && !arrived) // Jeœli obiekt siê porusza
+                && !arrived)
             {
                 float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
                 float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
                 rb.rotation = angle;
             }
-
-            if (agent.isStopped)
-            {
-                agent.isStopped = false;
-            }
         }
-        else
+        else if (fov.CanSeePlayer)
         {
-            if (!agent.isStopped)
-            {
-                agent.isStopped = true;
-            }
+            NoticedPlayerAgent();
+        }
+        else if (Time.time < rememberPlayerPositionClock)
+        {
+            agent.isStopped = false;
 
-            NoticedPlayer();
+            if (agent.velocity.magnitude > 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
+                float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
+                rb.rotation = angle;
+            }
         }
     }
 
-
     void GotoNextPoint()
     {
-        if (patrolPoints.Length == 0)
+        if (patrolPoints.Count == 0)
             return;
 
         agent.speed = patrolSpeed;
-
         agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
-
-        //PatrolDestination++;
 
         return;
     }
 
-    public void TurnInDirection(Vector3 targett, float rotationSpeedd)
+    public void NoticedPlayerAgent()
     {
-        isTurning = true;
+        rememberPlayerPositionClock = Time.time + timeToRememberPlayerPosition;
 
-        // Oblicz kąt między obecną pozycją wroga a punktem patrolowania
-        Vector2 directionToTarget = (targett - transform.position).normalized;
-        float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg - 90;
+        agent.speed = moveSpeed;
+        agent.destination = fov.playerRef.transform.position;
 
-        // Obróć wroga w kierunku punktu patrolowania
-        float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeedd);
-        rb.rotation = angle;
-
-        // Sprawdź, czy wróg jest już skierowany w kierunku punktu patrolowania
-        if (Mathf.Abs(Mathf.DeltaAngle(rb.rotation, targetAngle)) < 0.1f)
+        if (agent.remainingDistance <= weaponOwner.weapon.attackDistance)
         {
-            isTurning = false;
+            agent.isStopped = true;
         }
-    }
+        else
+            agent.isStopped = false;
 
-    public void NoticedPlayer()
-    {
-        Vector2 directionToPlayer = (fov.playerRef.transform.position - transform.position).normalized;
-        float targetAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg - 90;
-
-        float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
-        rb.rotation = angle;
-
-        transform.position = Vector2.MoveTowards(transform.position, fov.playerRef.transform.position, moveSpeed * Time.deltaTime);
-
-        if (weaponOwner.weapon != null)
+        if (agent.velocity.magnitude > 0.1f)
         {
-            weaponOwner.weapon.Fire(Color.green);
+            float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
+            float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
+            rb.rotation = angle;
+        }
+        else
+        {
+            Vector2 directionToPlayer = (fov.playerRef.transform.position - transform.position).normalized;
+            float targetAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg - 90;
+
+            float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
+            rb.rotation = angle;
+        }
+
+        if (weaponOwner.weapon != null
+            && fov.CanSeePlayer)
+        {
+            weaponOwner.weapon.Fire(Color.green, "Enemy");
         }
     }
 
@@ -179,5 +196,6 @@ public class PatrolPoint
     [SerializeField]
     public bool rotate = false;
     [SerializeField]
+    [Range(0, 360)]
     public float rotateInDirection = 0f;
 }

@@ -4,6 +4,7 @@ public class Bullet : MonoBehaviour
 {
     public Rigidbody2D rb;
     public GameObject lightFlashPrefab;
+    public string shootBy;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,7 +16,8 @@ public class Bullet : MonoBehaviour
                 Destroy(gameObject);
                 break;
             case "Enemy":
-                collision.gameObject.GetComponent<EnemyController>().TakeDamage(1);
+                if(shootBy != "Enemy")
+                    collision.gameObject.GetComponent<EnemyController>().TakeDamage(1);
                 Destroy(gameObject);
                 break;
             case "Player":
