@@ -1,9 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
+    public float innerRadius = 0.5f;
     public float radius = 5f;
     [Range(1, 360)]
     public float angle = 45f;
@@ -34,6 +35,7 @@ public class FieldOfView : MonoBehaviour
     private void FOV()
     {
         Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetLayer);
+        Collider2D[] innerRangeCheck = Physics2D.OverlapCircleAll(transform.position, innerRadius, targetLayer);
 
         if (rangeCheck.Length > 0)
         {
@@ -41,6 +43,22 @@ public class FieldOfView : MonoBehaviour
             Vector2 directionToTarget = (target.position - transform.position).normalized;
 
             if (Vector2.Angle(transform.up, directionToTarget) < angle / 2)
+            {
+                float distanceToTarget = Vector2.Distance(transform.position, target.position);
+
+                RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
+                foreach (var hit in hits)
+                {
+                    // If the object notice itself as obstruction, skip them
+                    if (hit.collider.gameObject != this.gameObject)
+                    {
+                        CanSeePlayer = false;
+                        return;
+                    }
+                }
+                CanSeePlayer = true;
+            }
+            else if (innerRangeCheck.Length > 0)
             {
                 float distanceToTarget = Vector2.Distance(transform.position, target.position);
 
@@ -68,6 +86,7 @@ public class FieldOfView : MonoBehaviour
     {
         Gizmos.color = Color.white;
         UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, radius);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, innerRadius);
 
         Vector3 angle01 = DirectionFromAngle(-transform.eulerAngles.z, -angle / 2);
         Vector3 angle02 = DirectionFromAngle(-transform.eulerAngles.z, angle / 2);

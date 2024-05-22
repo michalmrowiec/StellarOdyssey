@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour
                 {
                     patrolPoint = point.transform,
                     rotate = true,
-                    rotateInDirection = transform.rotation.eulerAngles.z % 360,
+                    rotateInDirection = transform.rotation.eulerAngles.z * -1,
                     secondWait = 0f
                 });
 
@@ -87,7 +87,7 @@ public class EnemyController : MonoBehaviour
             if (arrived
                 && patrolPoints[PatrolDestination].rotate)
             {
-                float angle = Mathf.LerpAngle(rb.rotation, patrolPoints[PatrolDestination].rotateInDirection, Time.deltaTime * rotationSpeed);
+                float angle = Mathf.LerpAngle(rb.rotation, patrolPoints[PatrolDestination].rotateInDirection % 360 * -1, Time.deltaTime * rotationSpeed);
                 rb.rotation = angle;
             }
 

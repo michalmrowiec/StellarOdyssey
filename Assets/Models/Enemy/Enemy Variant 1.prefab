@@ -170,6 +170,10 @@ PrefabInstance:
       propertyPath: radius
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1946666402106193052, guid: 431ad6541432e2c4faff8f77c8f090bb, type: 3}
+      propertyPath: innerRadius
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 7762303799018655612, guid: 431ad6541432e2c4faff8f77c8f090bb, type: 3}
       propertyPath: m_Name
       value: Enemy Variant 1
