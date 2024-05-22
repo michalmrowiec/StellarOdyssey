@@ -4463,11 +4463,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3332988290934393481, guid: c9e4cb5e8d7bb5c4085b3a310318e6c8, type: 3}
       propertyPath: weaponOffset.x
-      value: 0.14
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 3332988290934393481, guid: c9e4cb5e8d7bb5c4085b3a310318e6c8, type: 3}
       propertyPath: weaponOffset.y
-      value: 0.14
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 9039838102530162895, guid: c9e4cb5e8d7bb5c4085b3a310318e6c8, type: 3}
       propertyPath: m_Name
