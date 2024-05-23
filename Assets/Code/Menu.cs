@@ -23,6 +23,10 @@ public class Menu : MonoBehaviour
                 PauseGame();
             }
         }
+        else if(Input.GetKeyDown(KeyCode.R) && pauseMenu.activeInHierarchy)
+        {
+            RestartGame();
+        }
 
         if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().healthPoints <= 0)
         {

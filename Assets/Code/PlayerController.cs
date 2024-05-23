@@ -22,10 +22,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        PrecessInputs();
+        if(!sceneCamera.GetComponent<Menu>().pauseMenu.activeInHierarchy)
+        {
+            PrecessInputs();
 
-        animator.SetFloat("Walk", Mathf.Abs(_moveDirection.x + _moveDirection.y));
-        animator.SetFloat("Speed", _moveDirection.sqrMagnitude);
+            animator.SetFloat("Walk", Mathf.Abs(_moveDirection.x + _moveDirection.y));
+            animator.SetFloat("Speed", _moveDirection.sqrMagnitude);
+        }
     }
 
     private void FixedUpdate()

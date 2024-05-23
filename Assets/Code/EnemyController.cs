@@ -171,6 +171,7 @@ public class EnemyController : MonoBehaviour
         if (weaponOwner.weapon != null
             && fov.CanSeePlayer)
         {
+            
             weaponOwner.weapon.Fire(Color.green, "Enemy");
         }
     }

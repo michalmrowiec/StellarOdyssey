@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour
     {
         if (Time.time > nextFireTime)
         {
-            bullet.GetComponent<Light2D>().color = bulletColor;
+            bullet.GetComponentInChildren<Light2D>().color = bulletColor;
             bullet.GetComponent<Bullet>().shootBy = shootBy;
 
             GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if(drawWeaponLaser)
+        if (drawWeaponLaser)
         {
             Gizmos.color = Color.red;
             Vector3 direction = firePoint.up * 10f;
