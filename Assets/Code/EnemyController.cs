@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -87,11 +86,14 @@ public class EnemyController : MonoBehaviour
             if (arrived
                 && patrolPoints[PatrolDestination].rotate)
             {
-                float angle = Mathf.LerpAngle(rb.rotation, patrolPoints[PatrolDestination].rotateInDirection % 360 * -1, Time.deltaTime * rotationSpeed);
+                float angle = Mathf.LerpAngle(
+                    rb.rotation,
+                    patrolPoints[PatrolDestination].rotateInDirection % 360 * -1,
+                    Time.deltaTime * rotationSpeed);
                 rb.rotation = angle;
             }
 
-            if (arrived && !isWait && patrolPoints[PatrolDestination].secondWait > 0)
+            if (arrived && !isWait) //&& patrolPoints[PatrolDestination].secondWait > 0
             {
                 wait = Time.time + patrolPoints[PatrolDestination].secondWait;
                 isWait = true;
@@ -171,7 +173,7 @@ public class EnemyController : MonoBehaviour
         if (weaponOwner.weapon != null
             && fov.CanSeePlayer)
         {
-            
+
             weaponOwner.weapon.Fire(Color.green, "Enemy");
         }
     }

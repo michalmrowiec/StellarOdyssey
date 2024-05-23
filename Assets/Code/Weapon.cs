@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -23,7 +24,6 @@ public class Weapon : MonoBehaviour
 
             nextFireTime = Time.time + fireRate;
         }
-
     }
 
     void OnDrawGizmos()

@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1059173904119371756, guid: 0598a79b3d34b67489d5b3f6d878aa52, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1554854134175333758, guid: 0598a79b3d34b67489d5b3f6d878aa52, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -190,6 +194,10 @@ PrefabInstance:
     - target: {fileID: 1554854134175333758, guid: 0598a79b3d34b67489d5b3f6d878aa52, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7720665152843478701, guid: 0598a79b3d34b67489d5b3f6d878aa52, type: 3}
+      propertyPath: patrolSpeed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7720665152843478701, guid: 0598a79b3d34b67489d5b3f6d878aa52, type: 3}
       propertyPath: patrolPoints.Array.size
