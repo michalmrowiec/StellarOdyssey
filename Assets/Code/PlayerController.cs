@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _mousePosition;
     public Vector2 weaponOffset;
     public bool drawWeaponOffsetGizmo = false;
+    public Vector2 playerVelocity;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        playerVelocity = rb.velocity;
         Move();
     }
 
@@ -56,23 +58,6 @@ public class PlayerController : MonoBehaviour
         _moveDirection = new Vector2(moveX, moveY);
         _mousePosition = sceneCamera.ScreenToWorldPoint(Input.mousePosition);
     }
-
-    //void Move()
-    //{
-    //    rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
-
-    //    Vector2 aimDirection = _mousePosition - rb.position; // Usuwamy offset z tej linii
-    //    aimDirection.Normalize(); // Normalizujemy kierunek celowania
-
-    //    Vector2 weaponPosition = rb.position + aimDirection * weaponOffset.magnitude; // Dodajemy offset broni do kierunku celowania
-    //    Vector2 aimDirectionWithOffset = _mousePosition - weaponPosition; // Używamy nowej pozycji z offsetem
-
-    //    float aimAngle = Mathf.Atan2(aimDirectionWithOffset.y, aimDirectionWithOffset.x) * Mathf.Rad2Deg - 90f;
-    //    rb.rotation = aimAngle;
-
-    //    // Przesuwamy gracza do pozycji broni
-    //    rb.position = weaponPosition;
-    //}
 
     void Move()
     {
