@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickUpController : MonoBehaviour
@@ -18,7 +19,7 @@ public class PickUpController : MonoBehaviour
     {
         weapon = GetComponent<Weapon>();
 
-        if(equiped)
+        if (equiped)
         {
             //weaponContainer = gameObject.GetComponentInParent<WeaponOwner>().weaponContainer;
             owner = gameObject.GetComponentInParent<WeaponOwner>();
@@ -34,21 +35,35 @@ public class PickUpController : MonoBehaviour
 
             if (rangeCheck.Length > 0)
             {
-                Transform target = rangeCheck[0].transform;
-                Vector2 directionToTarget = (target.position - transform.position).normalized;
+                Transform closestTarget = null;
+                float closestDistance = float.MaxValue;
 
-
-                float distanceToTarget = Vector2.Distance(transform.position, target.position);
-
-                if (!Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer))
-                    if (directionToTarget.sqrMagnitude <= pickUpRange
-                                        && Input.GetKeyDown(KeyCode.E))
+                foreach (var collider in rangeCheck)
+                {
+                    float distanceToTarget = Vector2.Distance(transform.position, collider.transform.position);
+                    if (distanceToTarget < closestDistance)
                     {
-                        owner = target.gameObject.GetComponent<WeaponOwner>();
-                        PickUp();
+                        closestDistance = distanceToTarget;
+                        closestTarget = collider.transform;
                     }
+                }
+
+                if (closestTarget != null)
+                {
+                    Vector2 directionToTarget = (closestTarget.position - transform.position).normalized;
+
+                    if (!Physics2D.Raycast(transform.position, directionToTarget, closestDistance, obstructionLayer))
+                        if (directionToTarget.sqrMagnitude <= pickUpRange
+                                            && Input.GetKeyDown(KeyCode.E)
+                                            && closestTarget.gameObject.GetComponent<WeaponOwner>().weapon == null)
+                        {
+                            owner = closestTarget.gameObject.GetComponent<WeaponOwner>();
+                            PickUp();
+                        }
+                }
             }
         }
+
 
         if (equiped
             && owner.weapon != null
@@ -61,33 +76,26 @@ public class PickUpController : MonoBehaviour
 
     private void PickUp()
     {
+        weapon.GetComponent<Rigidbody2D>().isKinematic = true;
         equiped = true;
         owner.weapon = weapon;
-
-        //weaponContainer = owner.transform.Find("WeaponContainer");
-
-        //owner.weaponContainer = owner.weaponContainer;
 
         weapon.transform.SetParent(owner.weaponContainer);
         weapon.transform.localScale = weapon.transform.localScale;
         weapon.transform.localPosition = weaponPositionOffset;
         weapon.transform.localRotation = weaponRotationOffset;
-
-        //transform.SetParent(owner.weaponContainer);
-        //transform.localScale = weapon.transform.localScale;
-        //transform.localPosition = weaponPositionOffset;
-        //transform.localRotation = weaponRotationOffset;
     }
 
     public void Drop()
     {
+        weapon.GetComponent<Rigidbody2D>().isKinematic = false;
+
         weapon.transform.SetParent(null);
-        //transform.SetParent(null);
-        //owner.weaponContainer = null;
 
         owner.weapon = null;
         owner = null;
         equiped = false;
+        weapon.GetComponent<Rigidbody2D>().AddForce(weapon.transform.position * 5f);
     }
 
     private void OnDrawGizmos()

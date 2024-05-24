@@ -26,6 +26,9 @@ public class Bullet : MonoBehaviour
                 collision.gameObject.GetComponent<PlayerController>().TakeDamage(1);
                 Destroy(gameObject);
                 break;
+            case "Bullet":
+                Destroy(Instantiate(lightFlashPrefab, transform.position, Quaternion.identity), 0.02f);
+                break;
         }
 
         //Destroy(Instantiate(lightFlashPrefab, transform.position, Quaternion.identity), 0.02f);

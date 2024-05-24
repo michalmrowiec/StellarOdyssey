@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6353660323464806774}
   - component: {fileID: 227863886803162563}
   - component: {fileID: -3231488772551741669}
+  - component: {fileID: 7441336089416343985}
   m_Layer: 8
   m_Name: Weapon
   m_TagString: Untagged
@@ -101,9 +102,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 7448967043906644292, guid: b0c89d82d530e8f4d8a70ee4ad9d097c, type: 3}
   firePoint: {fileID: 6885065787498879013}
-  fireForce: 30
+  fireForce: 40
   fireRate: 0.2
   nextFireTime: 0
+  attackDistance: 2
+  drawWeaponLaser: 0
 --- !u!114 &-3231488772551741669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
   owner: {fileID: 0}
-  pickUpRange: 1.5
+  pickUpRange: 0.7
   equiped: 0
   targetLayer:
     serializedVersion: 2
@@ -129,6 +132,33 @@ MonoBehaviour:
   weaponScaleOffset: {x: 1, y: 1, z: 1}
   weaponPositionOffset: {x: 0, y: 0, z: 0}
   weaponRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+--- !u!50 &7441336089416343985
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099948359486401649}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 10
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &6014728725515314752
 GameObject:
   m_ObjectHideFlags: 0

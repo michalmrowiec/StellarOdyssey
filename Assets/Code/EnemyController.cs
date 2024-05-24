@@ -184,8 +184,20 @@ public class EnemyController : MonoBehaviour
 
         if (healthPoints <= 0)
         {
-            Destroy(gameObject);
+            Die();
+            //Destroy(gameObject);
         }
+    }
+
+    void Die()
+    {
+        weaponOwner.weapon.GetComponent<PickUpController>().Drop();
+        agent.enabled = false;
+        rb.isKinematic = true;
+        GetComponent<Collider2D>().enabled = false;
+        enabled = false;
+
+        GetComponent<Animator>().SetTrigger("Dead");
     }
 }
 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 04bb0686acbb71f4d832bf1e42e41b04
+guid: 4af7b9f2c33638a468757220febfacc5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,85 +110,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Enemy_Sprites_0
+      name: Enemy_Sprites2_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 250
-        width: 200
-        height: 250
+        y: 1200
+        width: 600
+        height: 600
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ee945e36369dbb478b25be0196db030
-      internalID: -106248306
+      spriteID: db5b11ed1f6ba0645a442f7e2ed73ff7
+      internalID: 992357867
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Sprites_1
+      name: Enemy_Sprites2_1
       rect:
         serializedVersion: 2
-        x: 200
-        y: 250
-        width: 200
-        height: 250
+        x: 600
+        y: 1200
+        width: 600
+        height: 600
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 94aecac5fba7fb34f84db610285ffecd
-      internalID: 1221589035
+      spriteID: 0bad07c861906934a855834f851d0049
+      internalID: -1133177716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Enemy_Sprites_2
+      name: Enemy_Sprites2_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b92c7d8b48329b46b6cf1c240f2255e
+      internalID: -779662827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_Sprites2_3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 600
+        width: 600
+        height: 600
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d67308b844236e04eb442ffb90c68cbe
+      internalID: 256702050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy_Sprites2_4
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 200
-        height: 250
+        width: 600
+        height: 600
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4999c61c1827524c8deadd4f545ba37
-      internalID: -2145265588
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Enemy_Sprites_3
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 0
-        width: 200
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 14efb73874896d94a8b3880a9aa8d832
-      internalID: -1540203711
+      spriteID: 75705c1892c99a54d9f8703bcb9d3480
+      internalID: 970664359
       vertices: []
       indices: 
       edges: []
@@ -204,10 +225,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Enemy_Sprites_0: -106248306
-      Enemy_Sprites_1: 1221589035
-      Enemy_Sprites_2: -2145265588
-      Enemy_Sprites_3: -1540203711
+      Enemy_Sprites2_0: 992357867
+      Enemy_Sprites2_1: -1133177716
+      Enemy_Sprites2_2: -779662827
+      Enemy_Sprites2_3: 256702050
+      Enemy_Sprites2_4: 970664359
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
