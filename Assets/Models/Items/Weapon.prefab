@@ -107,6 +107,8 @@ MonoBehaviour:
   nextFireTime: 0
   attackDistance: 2
   drawWeaponLaser: 0
+  ammo: 100
+  maxAmmo: 100
 --- !u!114 &-3231488772551741669
 MonoBehaviour:
   m_ObjectHideFlags: 0

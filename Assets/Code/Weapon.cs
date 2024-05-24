@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -11,10 +10,13 @@ public class Weapon : MonoBehaviour
     public float nextFireTime = 0;
     public float attackDistance = 2f;
     public bool drawWeaponLaser = false;
+    public int currentAmmo = 10;
+    public int maxAmmo = 10;
 
     public void Fire(Color bulletColor, string shootBy = "")
     {
-        if (Time.time > nextFireTime)
+        if (Time.time > nextFireTime
+            && currentAmmo > 0)
         {
             bullet.GetComponentInChildren<Light2D>().color = bulletColor;
             bullet.GetComponent<Bullet>().shootBy = shootBy;
@@ -23,6 +25,7 @@ public class Weapon : MonoBehaviour
             projectile.GetComponent<Rigidbody2D>().AddForce(firePoint.up * fireForce, ForceMode2D.Impulse);
 
             nextFireTime = Time.time + fireRate;
+            currentAmmo--;
         }
     }
 

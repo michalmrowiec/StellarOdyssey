@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 28629
+  controlID: 36552
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -62,17 +62,17 @@ MonoBehaviour:
   m_SerializedViewNames: []
   m_SerializedViewValues: []
   m_PlayModeViewName: GameView
-  m_ShowGizmos: 1
+  m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
   m_TargetSize: {x: 669, y: 376.4}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
-  m_EnterPlayModeBehavior: 1
+  m_EnterPlayModeBehavior: 0
   m_UseMipMap: 0
   m_VSyncEnabled: 1
-  m_Gizmos: 1
+  m_Gizmos: 0
   m_Stats: 0
   m_SelectedSizes: 01000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
@@ -89,10 +89,10 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
-    m_HSlider: 1
-    m_VSlider: 1
+    m_HSlider: 0
+    m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -103,7 +103,7 @@ MonoBehaviour:
       y: 21
       width: 862.8
       height: 376.4
-    m_Scale: {x: 2.416618, y: 2.416618}
+    m_Scale: {x: 1.25, y: 1.25}
     m_Translation: {x: 431.4, y: 188.2}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -111,10 +111,10 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -178.51393
-      y: -77.877426
-      width: 357.02786
-      height: 155.75485
+      x: -345.12
+      y: -150.56
+      width: 690.24
+      height: 301.12
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 1078.5, y: 496.75}
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 28579
+  controlID: 36553
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 28635
+  controlID: 36554
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -236,9 +236,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 10fafdff8809ffff62c9ffff46f9ffff76f9ffff98f9ffffacf9ffffc6f9ffffecf9ffff02faffff16faffff38faffff56faffff6cfaffff80faffff82faffff4e7000001e7100005c710000acb000008cb10000a2100100
+      m_SelectedIDs: 64d3fdff
+      m_LastClickedID: -142492
+      m_ExpandedIDs: 10fafdff8809ffff62c9ffff46f9ffff76f9ffff98f9ffffacf9ffffc6f9ffffecf9ffff02faffff16faffff38faffff56faffff6cfaffff80faffff82faffff4e7000001e7100005c710000c6710000acb000008cb10000a2100100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -685,9 +685,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 6.9005384, y: 19.914175, z: -0.031611007}
+    m_Target: {x: 6.6454678, y: 13.001294, z: -0.05723878}
     speed: 2
-    m_Value: {x: 6.9005384, y: 19.914175, z: -0.031611007}
+    m_Value: {x: 6.6454678, y: 13.001294, z: -0.05723878}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -737,9 +737,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 3.6742754
+    m_Target: 6.2370687
     speed: 2
-    m_Value: 3.6742754
+    m_Value: 6.2370687
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -975,7 +975,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Models/Items
+    - Assets/TextMesh Pro/Resources/Fonts & Materials
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -983,16 +983,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 67
   m_LastFolders:
-  - Assets/Models/Items
+  - Assets/TextMesh Pro/Resources/Fonts & Materials
   m_LastFoldersGridSize: 67
   m_LastProjectPath: C:\Users\micha\source\unity\StellarOdyssey
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: bc740000
-    m_LastClickedID: 29884
-    m_ExpandedIDs: 00000000127300001473000016730000b4740000bc74000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 152.6}
+    m_SelectedIDs: bc960100
+    m_LastClickedID: 104124
+    m_ExpandedIDs: 00000000127300001473000016730000b4740000bc740000cc740000be96010000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1045,9 +1045,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 2efaffff
-    m_LastClickedInstanceID: -1490
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: 64d3fdff
+    m_LastClickedInstanceID: -142492
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000d66e000074710000c87f0000b07f0000dc72000000000000dc700000946f010058720000f4ee0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1146,7 +1146,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -1490
+  m_LastSelectedObjectID: -142492
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1216,7 +1216,7 @@ MonoBehaviour:
     m_CachedPref: 243.19998
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1490
+  m_LastInspectedObjectInstanceID: -142492
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -1263,7 +1263,7 @@ MonoBehaviour:
     m_CachedPref: -243.19998
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1490
+  m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -1343,5 +1343,5 @@ MonoBehaviour:
   m_Zoom: -1
   m_ScrollPosition: {x: 0, y: 0}
   m_SelectedObject: {fileID: 0}
-  m_SelectedSpriteRectGUID: d95a7c2667e84864eb85c28dd5a5c775
+  m_SelectedSpriteRectGUID: 00000000000000000000000000000000
   m_LastUsedModuleTypeName: UnityEditor.U2D.Sprites.SpriteFrameModule
