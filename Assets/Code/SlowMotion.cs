@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Apple;
 
 public class SlowMotion : MonoBehaviour
 {
@@ -14,10 +15,18 @@ public class SlowMotion : MonoBehaviour
 
     void Update()
     {
+        if (isSlowMotionActive)
+        {
+            player.GetComponent<PlayerController>().moveSpeed = slowMotionPlayerMoveSpeed;
+            player.GetComponent<PlayerController>().weaponOwner.weapon.fireRate = slowMotionPlayerFireRate;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isSlowMotionActive)
             {
+                player.GetComponent<PlayerController>().moveSpeed = originalPlayerMoveSpeed;
+                player.GetComponent<PlayerController>().weaponOwner.weapon.fireRate = originalPlayerFireRate;
                 ResumeTime();
             }
             else
@@ -36,19 +45,13 @@ public class SlowMotion : MonoBehaviour
         isSlowMotionActive = true;
         Time.timeScale = slowMotionTimeScale;
         Time.fixedDeltaTime = originalFixedDeltaTime * slowMotionTimeScale;
-
-        player.GetComponent<PlayerController>().moveSpeed = slowMotionPlayerMoveSpeed;
-        player.GetComponent<PlayerController>().weaponOwner.weapon.fireRate = slowMotionPlayerFireRate;
     }
 
     void ResumeTime()
     {
-        isSlowMotionActive = false;
         Time.timeScale = 1f;
         Time.fixedDeltaTime = originalFixedDeltaTime;
-
-        player.GetComponent<PlayerController>().moveSpeed = originalPlayerMoveSpeed;
-        player.GetComponent<PlayerController>().weaponOwner.weapon.fireRate = originalPlayerFireRate;
+        isSlowMotionActive = false;
     }
 
     private void FixedUpdate()

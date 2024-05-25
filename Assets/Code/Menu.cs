@@ -3,7 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    public GameObject pauseMenu; // Referencja do obiektu panelu menu
+    public GameObject pauseMenu;
+    public GameObject gameOverMenu;
+    public bool gamePoused = false;
 
     private void Start()
     {
@@ -20,17 +22,19 @@ public class Menu : MonoBehaviour
             }
             else
             {
+                gamePoused = true;
                 PauseGame();
             }
         }
-        else if(Input.GetKeyDown(KeyCode.R) && pauseMenu.activeInHierarchy)
+        else if(Input.GetKeyDown(KeyCode.R) && (pauseMenu.activeInHierarchy || gameOverMenu.activeInHierarchy))
         {
             RestartGame();
         }
 
         if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().healthPoints <= 0)
         {
-            PauseGame();
+            gamePoused = true;
+            GameOver();
         }
     }
 
@@ -42,24 +46,31 @@ public class Menu : MonoBehaviour
 
     public void PauseGame()
     {
-        Time.timeScale = 0; // Zatrzymuje czas w grze
-        pauseMenu.SetActive(true); // Wyœwietla menu
+        Time.timeScale = 0;
+        pauseMenu.SetActive(true);
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 0;
+        gameOverMenu.SetActive(true);
     }
 
     public void ResumeGame()
     {
-        Time.timeScale = 1; // Wznawia czas w grze
-        pauseMenu.SetActive(false); // Ukrywa menu
+        Time.timeScale = 1;
+        pauseMenu.SetActive(false);
+        gamePoused = false;
     }
 
     public void QuitGame()
     {
-        Application.Quit(); // Zamyka grê
+        Application.Quit();
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1; // Wznawia czas w grze
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Restartuje aktualn¹ scenê
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

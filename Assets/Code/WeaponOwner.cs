@@ -5,12 +5,12 @@ public class WeaponOwner : MonoBehaviour
 {
     public Weapon weapon;
     public Transform weaponContainer;
-    public  bool OwnerIsPlayer { get; private set; }
+    public bool OwnerIsPlayer { get; private set; }
     public TextMeshProUGUI ammoText;
 
     void Start()
     {
-        if(gameObject.GetComponentInParent<PlayerController>() != null)
+        if (gameObject.GetComponentInParent<PlayerController>() != null)
         {
             OwnerIsPlayer = true;
         }
@@ -20,14 +20,16 @@ public class WeaponOwner : MonoBehaviour
 
     void Update()
     {
-        if (weapon != null
-            && OwnerIsPlayer)
+        if (OwnerIsPlayer && ammoText != null)
         {
-            ammoText.text = $"{weapon.currentAmmo}/{weapon.maxAmmo}";
-        }
-        else
-        {
-            ammoText.text = "";
+            if (weapon != null)
+            {
+                ammoText.text = $"{weapon.currentAmmo}/{weapon.maxAmmo}";
+            }
+            else
+            {
+                ammoText.text = "";
+            }
         }
     }
 }

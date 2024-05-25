@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!sceneCamera.GetComponent<Menu>().pauseMenu.activeInHierarchy)
+        if(!sceneCamera.GetComponent<Menu>().gamePoused)
         {
             PrecessInputs();
 
