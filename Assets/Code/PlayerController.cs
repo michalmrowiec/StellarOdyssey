@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 _moveDirection;
     private Vector2 _mousePosition;
+    public Vector2 weaponOffset;
+    public bool drawWeaponOffsetGizmo = false;
+    public Vector2 playerVelocity;
 
     private void Start()
     {
@@ -19,14 +22,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        PrecessInputs();
+        if(!sceneCamera.GetComponent<Menu>().gamePoused)
+        {
+            PrecessInputs();
 
-        animator.SetFloat("Walk", Mathf.Abs(_moveDirection.x + _moveDirection.y));
-        animator.SetFloat("Speed", _moveDirection.sqrMagnitude);
+            animator.SetFloat("Walk", Mathf.Abs(_moveDirection.x + _moveDirection.y));
+            animator.SetFloat("Speed", _moveDirection.sqrMagnitude);
+        }
     }
 
     private void FixedUpdate()
     {
+        playerVelocity = rb.velocity;
         Move();
     }
 
@@ -36,7 +43,8 @@ public class PlayerController : MonoBehaviour
 
         if (healthPoints <= 0)
         {
-            Destroy(gameObject);
+            //gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
     }
 
@@ -47,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && weaponOwner.weapon != null)
         {
-            weaponOwner.weapon.Fire();
+            weaponOwner.weapon.Fire(Color.blue);
         }
 
         _moveDirection = new Vector2(moveX, moveY);
@@ -58,8 +66,20 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
 
-        Vector2 aimDirection = _mousePosition - rb.position;
+        Vector2 playerPositionWithOffset = transform.TransformPoint(weaponOffset); // Przekształcamy offset do globalnego układu współrzędnych
+        Vector2 aimDirection = _mousePosition - playerPositionWithOffset; // Używamy nowej pozycji z offsetem
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = aimAngle;
     }
+
+    void OnDrawGizmos()
+    {
+        if (drawWeaponOffsetGizmo)
+        {
+            Gizmos.color = Color.red;
+            Vector3 vector3 = transform.TransformPoint(weaponOffset); // Przekształcamy offset do globalnego układu współrzędnych
+            Gizmos.DrawSphere(vector3, 0.1f);
+        }
+    }
+
 }
