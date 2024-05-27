@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickUpController : MonoBehaviour
@@ -7,7 +6,7 @@ public class PickUpController : MonoBehaviour
     //public Transform weaponContainer;
     public WeaponOwner owner;
     public float pickUpRange = 1.5f;
-    public bool equiped;
+    public bool equiped = false;
     public LayerMask targetLayer;
     public LayerMask obstructionLayer;
 
@@ -15,16 +14,22 @@ public class PickUpController : MonoBehaviour
     public Vector3 weaponPositionOffset = Vector3.zero;
     public Quaternion weaponRotationOffset = Quaternion.Euler(Vector3.zero);
 
-    void Start()
+    private void Start()
     {
         weapon = GetComponent<Weapon>();
 
-        if (equiped)
+        owner = gameObject.GetComponentInParent<WeaponOwner>();
+        owner.weapon = weapon;
+
+        if (GetComponentInParent<PlayerController>() != null)
         {
-            //weaponContainer = gameObject.GetComponentInParent<WeaponOwner>().weaponContainer;
-            owner = gameObject.GetComponentInParent<WeaponOwner>();
-            owner.weapon = weapon;
+            SlowMotion.OnSlowMotionChanged += weapon.UpdateFireRate;
         }
+    }
+
+    private void OnDisable()
+    {
+        SlowMotion.OnSlowMotionChanged -= weapon.UpdateFireRate;
     }
 
     private void Update()
@@ -76,6 +81,12 @@ public class PickUpController : MonoBehaviour
 
     private void PickUp()
     {
+        if (owner.OwnerIsPlayer)
+        {
+            weapon.UpdateFireRate(SlowMotion.isSlowMotionActive);
+            SlowMotion.OnSlowMotionChanged += weapon.UpdateFireRate;
+        }
+
         weapon.GetComponent<Rigidbody2D>().isKinematic = true;
         equiped = true;
         owner.weapon = weapon;
@@ -88,6 +99,12 @@ public class PickUpController : MonoBehaviour
 
     public void Drop()
     {
+        if (owner.OwnerIsPlayer)
+        {
+            SlowMotion.OnSlowMotionChanged -= weapon.UpdateFireRate;
+            weapon.UpdateFireRate(false);
+        }
+
         weapon.GetComponent<Rigidbody2D>().isKinematic = false;
 
         weapon.transform.SetParent(null);
@@ -98,6 +115,7 @@ public class PickUpController : MonoBehaviour
         weapon.GetComponent<Rigidbody2D>().AddForce(weapon.transform.position * 5f);
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (!equiped)
@@ -106,4 +124,5 @@ public class PickUpController : MonoBehaviour
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, pickUpRange);
         }
     }
+#endif
 }

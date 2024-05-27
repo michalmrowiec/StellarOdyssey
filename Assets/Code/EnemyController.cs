@@ -1,42 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    public enum EnemyState
+    {
+        Patrol,
+        ChasePlayer,
+        SearchForPlayer,
+        InvestigateBody
+    }
+
     [SerializeField]
     public List<PatrolPoint> patrolPoints;
-    private float wait = 0;
-    private int patrolDestination = 0;
-    public int PatrolDestination
-    {
-        get => patrolDestination;
-        set
-        {
-            if (patrolPoints.Count == value)
-            {
-                patrolDestination = 0;
-            }
-            else
-            {
-                patrolDestination = value;
-            }
-        }
-    }
     public float patrolSpeed = 1.5f;
     public float timeToRememberPlayerPosition = 2f;
-    private float rememberPlayerPositionClock = 0f;
-    public float moveSpeed = 2f;
+    public float chaseSpeed = 2f;
     public float rotationSpeed = 1f;
     public int healthPoints = 1;
+    public float investigateSpeed = 1.7f;
+    public float timeToInvestigate = 2f;
     public Rigidbody2D rb;
     public WeaponOwner weaponOwner;
-    private FieldOfView fov;
     public NavMeshAgent agent;
     public Animator animator;
-    private bool arrived = false;
-    private bool isWait = false;
+    public EnemyState enemyState = EnemyState.Patrol;
+
+    private float rememberPlayerPositionForTime = 0f;
+    private float investigateForTime = 0f;
+    private FieldOfView fov;
+    private Dictionary<EnemyState, Action> stateMachine;
+    private PatrolController patrolController;
+    private List<GameObject> investigatedBodies = new();
 
     void Start()
     {
@@ -48,11 +48,9 @@ public class EnemyController : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        if (patrolPoints.Count > 0)
-        {
-            agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
-        }
-        else
+        enemyState = EnemyState.Patrol;
+
+        if (patrolPoints.Count == 0)
         {
             GameObject point = new GameObject("patrolPoint");
             point.transform.position = transform.position;
@@ -65,87 +63,110 @@ public class EnemyController : MonoBehaviour
                     rotateInDirection = transform.rotation.eulerAngles.z * -1,
                     secondWait = 0f
                 });
-
-            agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
         }
+
+        patrolController = new(
+            patrolPoints: patrolPoints,
+            patrolSpeed: patrolSpeed,
+            rb: rb,
+            agent: agent,
+            rotationSpeed: rotationSpeed);
+
+        stateMachine = new Dictionary<EnemyState, Action>()
+        {
+            { EnemyState.Patrol, patrolController.Patrol },
+            { EnemyState.ChasePlayer, NoticedPlayerAgent },
+            { EnemyState.SearchForPlayer, SearchPlayer },
+            { EnemyState.InvestigateBody, InvestigateBody }
+        };
     }
 
     void Update()
     {
         animator.SetFloat("Speed", (rb.velocity.magnitude + agent.velocity.magnitude));
 
-        if (!fov.CanSeePlayer
-            && Time.time > rememberPlayerPositionClock)
+        switch (enemyState)
         {
-            GotoNextPoint();
+            case EnemyState.Patrol:
+                if (fov.CanSeePlayer)
+                    enemyState = EnemyState.ChasePlayer;
+                else if (fov.CanSeeBodies.Except(investigatedBodies).Any())
+                    StartBodyInvestigation();
+                break;
 
-            arrived = !agent.pathPending && agent.remainingDistance < 0.5f;
+            case EnemyState.ChasePlayer:
+                if (!fov.CanSeePlayer)
+                    enemyState = EnemyState.SearchForPlayer;
+                break;
 
-            agent.isStopped = false;
+            case EnemyState.SearchForPlayer:
+                if (fov.CanSeePlayer)
+                    enemyState = EnemyState.ChasePlayer;
+                else if (fov.CanSeeBodies.Except(investigatedBodies).Any())
+                    StartBodyInvestigation();
+                else if (Time.time > rememberPlayerPositionForTime)
+                    enemyState = EnemyState.Patrol;
+                break;
 
-            if (arrived
-                && patrolPoints[PatrolDestination].rotate)
-            {
-                float angle = Mathf.LerpAngle(
-                    rb.rotation,
-                    patrolPoints[PatrolDestination].rotateInDirection % 360 * -1,
-                    Time.deltaTime * rotationSpeed);
-                rb.rotation = angle;
-            }
-
-            if (arrived && !isWait) //&& patrolPoints[PatrolDestination].secondWait > 0
-            {
-                wait = Time.time + patrolPoints[PatrolDestination].secondWait;
-                isWait = true;
-            }
-            else if (arrived && isWait && Time.time > wait)
-            {
-                isWait = false;
-                PatrolDestination++;
-                GotoNextPoint();
-            }
-
-            if (agent.velocity.magnitude > 0.1f
-                && !arrived)
-            {
-                float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
-                float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
-                rb.rotation = angle;
-            }
+            case EnemyState.InvestigateBody:
+                if (fov.CanSeePlayer)
+                    enemyState = EnemyState.ChasePlayer;
+                else if (agent.remainingDistance > 0.5f)
+                    investigateForTime = Time.time + timeToInvestigate;
+                else if (Time.time > investigateForTime)
+                    enemyState = EnemyState.Patrol;
+                break;
         }
-        else if (fov.CanSeePlayer)
-        {
-            NoticedPlayerAgent();
-        }
-        else if (Time.time < rememberPlayerPositionClock)
-        {
-            agent.isStopped = false;
 
-            if (agent.velocity.magnitude > 0.1f)
-            {
-                float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
-                float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
-                rb.rotation = angle;
-            }
+
+
+
+
+        stateMachine[enemyState].Invoke();
+    }
+
+    private void StartBodyInvestigation()
+    {
+        var newBodies = fov.CanSeeBodies.Except(investigatedBodies).ToList();
+        var closestBody = newBodies.Aggregate((currentClosest, nextBody) =>
+            Vector2.Distance(transform.position, nextBody.transform.position) <
+            Vector2.Distance(transform.position, currentClosest.transform.position) ? nextBody : currentClosest);
+
+        investigatedBodies.Add(closestBody);
+
+        enemyState = EnemyState.InvestigateBody;
+    }
+
+    private void InvestigateBody()
+    {
+        agent.speed = investigateSpeed;
+        agent.destination = investigatedBodies.Last().transform.position;
+
+        if (agent.velocity.magnitude > 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
+            float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
+            rb.rotation = angle;
         }
     }
 
-    void GotoNextPoint()
+    private void SearchPlayer()
     {
-        if (patrolPoints.Count == 0)
-            return;
+        agent.isStopped = false;
 
-        agent.speed = patrolSpeed;
-        agent.destination = patrolPoints[PatrolDestination].patrolPoint.position;
-
-        return;
+        if (agent.velocity.magnitude > 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(agent.velocity.y, agent.velocity.x) * Mathf.Rad2Deg - 90f;
+            float angle = Mathf.LerpAngle(rb.rotation, targetAngle, Time.deltaTime * rotationSpeed);
+            rb.rotation = angle;
+        }
     }
 
-    public void NoticedPlayerAgent()
+    private void NoticedPlayerAgent()
     {
-        rememberPlayerPositionClock = Time.time + timeToRememberPlayerPosition;
+        rememberPlayerPositionForTime = Time.time + timeToRememberPlayerPosition;
 
-        agent.speed = moveSpeed;
+        agent.speed = chaseSpeed;
         agent.destination = fov.playerRef.transform.position;
 
         if (agent.remainingDistance <= weaponOwner.weapon.attackDistance)
@@ -185,18 +206,18 @@ public class EnemyController : MonoBehaviour
         if (healthPoints <= 0)
         {
             Die();
-            //Destroy(gameObject);
         }
     }
 
     void Die()
     {
-        weaponOwner.weapon.GetComponent<PickUpController>().Drop();
         agent.enabled = false;
         rb.isKinematic = true;
-        GetComponent<Collider2D>().enabled = false;
-        enabled = false;
-
+        this.enabled = false;
+        this.gameObject.tag = "DeadEnemy";
+        this.gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
+        this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        weaponOwner.weapon.GetComponent<PickUpController>().Drop();
         GetComponent<Animator>().SetTrigger("Dead");
     }
 }

@@ -149,8 +149,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1.0000002
-  m_LinearDrag: 0
+  m_Mass: 50
+  m_LinearDrag: 10
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -183,13 +183,16 @@ MonoBehaviour:
     rotateInDirection: 0
   patrolSpeed: 1.5
   timeToRememberPlayerPosition: 2.5
-  moveSpeed: 2.5
+  chaseSpeed: 2
   rotationSpeed: 7
   healthPoints: 1
+  investigateSpeed: 1.7
+  timeToInvestigate: 2
   rb: {fileID: 0}
   weaponOwner: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: -6874886400238935792}
+  enemyState: 0
 --- !u!114 &442721008998376101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 0}
   weaponContainer: {fileID: 0}
+  ammoText: {fileID: 0}
 --- !u!114 &1946666402106193052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,11 +225,12 @@ MonoBehaviour:
   angle: 120
   targetLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1280
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 640
   playerRef: {fileID: 0}
+  objs: []
 --- !u!195 &4149194354400731141
 NavMeshAgent:
   m_ObjectHideFlags: 0

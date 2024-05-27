@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,7 +6,9 @@ public class Menu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
+    public GameObject playUi;
     public bool gamePoused = false;
+    public static event Action OnRestartGame;
 
     private void Start()
     {
@@ -47,12 +50,14 @@ public class Menu : MonoBehaviour
     public void PauseGame()
     {
         Time.timeScale = 0;
+        playUi.SetActive(false);
         pauseMenu.SetActive(true);
     }
 
     public void GameOver()
     {
         Time.timeScale = 0;
+        playUi.SetActive(false);
         gameOverMenu.SetActive(true);
     }
 
@@ -61,6 +66,7 @@ public class Menu : MonoBehaviour
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         gamePoused = false;
+        playUi.SetActive(true);
     }
 
     public void QuitGame()
@@ -70,7 +76,8 @@ public class Menu : MonoBehaviour
 
     public void RestartGame()
     {
-        Time.timeScale = 1;
+        OnRestartGame();
+        //Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

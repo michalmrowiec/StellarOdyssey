@@ -1,6 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.Burst.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -14,6 +18,7 @@ public class FieldOfView : MonoBehaviour
     public GameObject playerRef;
 
     public bool CanSeePlayer { get; private set; }
+    public List<GameObject> CanSeeBodies { get; private set; } = new();
 
     void Start()
     {
@@ -37,51 +42,59 @@ public class FieldOfView : MonoBehaviour
         Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetLayer);
         Collider2D[] innerRangeCheck = Physics2D.OverlapCircleAll(transform.position, innerRadius, targetLayer);
 
-        if (rangeCheck.Length > 0)
+        if (rangeCheck.Length > 0 || innerRangeCheck.Length > 0)
         {
-            Transform target = rangeCheck[0].transform;
-            Vector2 directionToTarget = (target.position - transform.position).normalized;
+            List<Collider2D> targets = rangeCheck.Where(x =>
+                Vector2.Angle(transform.up, (Vector2)(x.transform.position - transform.position).normalized) < angle / 2).ToList();
+            targets.AddRange(innerRangeCheck);
+            targets = targets.Distinct().ToList();
+            targets.Remove(targets.FirstOrDefault(x => x.gameObject == this.gameObject));
 
-            if (Vector2.Angle(transform.up, directionToTarget) < angle / 2)
+            if (targets.Any())
             {
-                float distanceToTarget = Vector2.Distance(transform.position, target.position);
+                List<Collider2D> directTargets = new();
 
-                RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
-                foreach (var hit in hits)
+                foreach (var target in targets)
                 {
-                    // If the object notice itself as obstruction, skip them
-                    if (hit.collider.gameObject != this.gameObject)
+                    RaycastHit2D[] hits = Physics2D.RaycastAll(
+                            transform.position,
+                            (target.transform.position - transform.position).normalized,
+                            Vector2.Distance(transform.position, target.transform.position),
+                            obstructionLayer);
+
+                    if (hits.Length <= 1)
                     {
-                        CanSeePlayer = false;
-                        return;
+                        directTargets.Add(target);
                     }
                 }
-                CanSeePlayer = true;
-            }
-            else if (innerRangeCheck.Length > 0)
-            {
-                float distanceToTarget = Vector2.Distance(transform.position, target.position);
 
-                RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
-                foreach (var hit in hits)
+                CanSeeBodies.Clear();
+                foreach (var target in directTargets)
                 {
-                    // If the object notice itself as obstruction, skip them
-                    if (hit.collider.gameObject != this.gameObject)
+                    if (target.gameObject == playerRef)
                     {
-                        CanSeePlayer = false;
-                        return;
+                        CanSeePlayer = true;
+                    }
+                    else if (target.gameObject.CompareTag("DeadEnemy"))
+                    {
+                        CanSeeBodies.Add(target.gameObject);
                     }
                 }
-                CanSeePlayer = true;
             }
             else
+            {
                 CanSeePlayer = false;
+                CanSeeBodies.Clear();
+            }
         }
         else if (CanSeePlayer)
+        {
             CanSeePlayer = false;
+            CanSeeBodies.Clear();
+        }
     }
 
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -108,4 +121,6 @@ public class FieldOfView : MonoBehaviour
 
         return new Vector2(Mathf.Sin(angleIndegrees * Mathf.Deg2Rad), Mathf.Cos(angleIndegrees * Mathf.Deg2Rad));
     }
+#endif
+
 }

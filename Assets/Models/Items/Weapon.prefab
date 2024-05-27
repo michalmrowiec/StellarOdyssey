@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1711464700, guid: dfc38fd3d32d6bb4e893ea65039ef2dc, type: 3}
   m_Color: {r: 0.61154795, g: 1, b: 0, a: 1}
   m_FlipX: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   nextFireTime: 0
   attackDistance: 2
   drawWeaponLaser: 0
-  ammo: 100
+  currentAmmo: 10
   maxAmmo: 100
 --- !u!114 &-3231488772551741669
 MonoBehaviour:

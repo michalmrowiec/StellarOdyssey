@@ -1,24 +1,28 @@
+using System;
 using UnityEngine;
-using UnityEngine.Apple;
 
 public class SlowMotion : MonoBehaviour
 {
     public float slowMotionTimeScale = 0.1f;
-    public float slowMotionPlayerFireRate = 0.01f;
     public float slowMotionPlayerMoveSpeed = 10f;
     public GameObject player;
-    private bool isSlowMotionActive = false;
+    public static bool isSlowMotionActive = false;
     private float originalFixedDeltaTime;
-    private float originalPlayerFireRate;
     private float originalPlayerMoveSpeed;
     public Vector2 playerVelocity;
+
+    public static event Action<bool> OnSlowMotionChanged;
+
+    private void OnEnable()
+    {
+        Menu.OnRestartGame += ResumeTime;
+    }
 
     void Update()
     {
         if (isSlowMotionActive)
         {
             player.GetComponent<PlayerController>().moveSpeed = slowMotionPlayerMoveSpeed;
-            player.GetComponent<PlayerController>().weaponOwner.weapon.fireRate = slowMotionPlayerFireRate;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -26,7 +30,6 @@ public class SlowMotion : MonoBehaviour
             if (isSlowMotionActive)
             {
                 player.GetComponent<PlayerController>().moveSpeed = originalPlayerMoveSpeed;
-                player.GetComponent<PlayerController>().weaponOwner.weapon.fireRate = originalPlayerFireRate;
                 ResumeTime();
             }
             else
@@ -39,12 +42,12 @@ public class SlowMotion : MonoBehaviour
     void ActivateSlowMotion()
     {
         originalFixedDeltaTime = Time.fixedDeltaTime;
-        originalPlayerFireRate = player.GetComponent<PlayerController>().weaponOwner.weapon.fireRate;
         originalPlayerMoveSpeed = player.GetComponent<PlayerController>().moveSpeed;
 
         isSlowMotionActive = true;
         Time.timeScale = slowMotionTimeScale;
         Time.fixedDeltaTime = originalFixedDeltaTime * slowMotionTimeScale;
+        OnSlowMotionChanged(true);
     }
 
     void ResumeTime()
@@ -52,6 +55,7 @@ public class SlowMotion : MonoBehaviour
         Time.timeScale = 1f;
         Time.fixedDeltaTime = originalFixedDeltaTime;
         isSlowMotionActive = false;
+        OnSlowMotionChanged(false);
     }
 
     private void FixedUpdate()
