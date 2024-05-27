@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour
     public GameObject playUi;
     public bool gamePoused = false;
     public static event Action OnRestartGame;
+    public static event Action<bool> OnPauseGame;
 
     private void Start()
     {
@@ -49,6 +50,7 @@ public class Menu : MonoBehaviour
 
     public void PauseGame()
     {
+        OnPauseGame(true);
         Time.timeScale = 0;
         playUi.SetActive(false);
         pauseMenu.SetActive(true);
@@ -63,6 +65,7 @@ public class Menu : MonoBehaviour
 
     public void ResumeGame()
     {
+        OnPauseGame(false);
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         gamePoused = false;
@@ -78,6 +81,7 @@ public class Menu : MonoBehaviour
     {
         OnRestartGame();
         //Time.timeScale = 1;
+        //gamePoused = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
