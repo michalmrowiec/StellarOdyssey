@@ -37,7 +37,6 @@ public class EnemyController : MonoBehaviour
     private Dictionary<EnemyState, Action> stateMachine;
     private PatrolController patrolController;
     private List<GameObject> investigatedBodies = new();
-    //private Dictionary<GameObject, bool> investigatedBodies = new();
 
     void Start()
     {
@@ -89,6 +88,10 @@ public class EnemyController : MonoBehaviour
         switch (enemyState)
         {
             case EnemyState.Patrol:
+                if (fov.CanSeePlayer)
+                    enemyState = EnemyState.ChasePlayer;
+                else if (fov.CanSeeBodies.Except(investigatedBodies).Any())
+                    StartBodyInvestigation();
                 break;
 
             case EnemyState.ChasePlayer:
@@ -97,35 +100,41 @@ public class EnemyController : MonoBehaviour
                 break;
 
             case EnemyState.SearchForPlayer:
-                if (Time.time > rememberPlayerPositionForTime)
+                if (fov.CanSeePlayer)
+                    enemyState = EnemyState.ChasePlayer;
+                else if (fov.CanSeeBodies.Except(investigatedBodies).Any())
+                    StartBodyInvestigation();
+                else if (Time.time > rememberPlayerPositionForTime)
                     enemyState = EnemyState.Patrol;
                 break;
 
             case EnemyState.InvestigateBody:
-                if (agent.remainingDistance > 0.5f)
+                if (fov.CanSeePlayer)
+                    enemyState = EnemyState.ChasePlayer;
+                else if (agent.remainingDistance > 0.5f)
                     investigateForTime = Time.time + timeToInvestigate;
                 else if (Time.time > investigateForTime)
                     enemyState = EnemyState.Patrol;
                 break;
         }
 
-        if (fov.CanSeePlayer)
-            enemyState = EnemyState.ChasePlayer;
-        else if (fov.CanSeeBodies.Except(investigatedBodies).Any())
-        {
-            Debug.Log("nie weszłeś!");
-            var newBodies = fov.CanSeeBodies.Except(investigatedBodies).ToList();
-            var closestBody = newBodies.Aggregate((currentClosest, nextBody) =>
-                Vector2.Distance(transform.position, nextBody.transform.position) <
-                Vector2.Distance(transform.position, currentClosest.transform.position) ? nextBody : currentClosest);
 
-            investigatedBodies.Add(closestBody);
-            //investigateForTime = Time.time + timeToInvestigate;
 
-            enemyState = EnemyState.InvestigateBody;
-        }
+
 
         stateMachine[enemyState].Invoke();
+    }
+
+    private void StartBodyInvestigation()
+    {
+        var newBodies = fov.CanSeeBodies.Except(investigatedBodies).ToList();
+        var closestBody = newBodies.Aggregate((currentClosest, nextBody) =>
+            Vector2.Distance(transform.position, nextBody.transform.position) <
+            Vector2.Distance(transform.position, currentClosest.transform.position) ? nextBody : currentClosest);
+
+        investigatedBodies.Add(closestBody);
+
+        enemyState = EnemyState.InvestigateBody;
     }
 
     private void InvestigateBody()

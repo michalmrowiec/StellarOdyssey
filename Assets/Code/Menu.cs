@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,7 @@ public class Menu : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     public bool gamePoused = false;
+    public static event Action OnRestartGame;
 
     private void Start()
     {
@@ -70,7 +72,8 @@ public class Menu : MonoBehaviour
 
     public void RestartGame()
     {
-        Time.timeScale = 1;
+        OnRestartGame();
+        //Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

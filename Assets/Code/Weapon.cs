@@ -6,12 +6,19 @@ public class Weapon : MonoBehaviour
     public GameObject bullet;
     public Transform firePoint;
     public float fireForce;
-    public float fireRate = 1;
-    public float nextFireTime = 0;
+    public float fireRate = 1f;
+    public float slowMotionFireRate = 2f;
+    public float nextFireTime = 0f;
     public float attackDistance = 2f;
     public bool drawWeaponLaser = false;
     public int currentAmmo = 10;
     public int maxAmmo = 10;
+    private float fireRateOriginal;
+
+    private void Start()
+    {
+        fireRateOriginal = fireRate;
+    }
 
     public void Fire(Color bulletColor, string shootBy = "")
     {
@@ -26,6 +33,18 @@ public class Weapon : MonoBehaviour
 
             nextFireTime = Time.time + fireRate;
             currentAmmo--;
+        }
+    }
+
+    public void UpdateFireRate(bool slowMotionActive)
+    {
+        if(slowMotionActive)
+        {
+            fireRate = slowMotionFireRate;
+        }
+        else
+        {
+            fireRate = fireRateOriginal;
         }
     }
 
