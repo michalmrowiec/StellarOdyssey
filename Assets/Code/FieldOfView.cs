@@ -94,7 +94,7 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -121,4 +121,6 @@ public class FieldOfView : MonoBehaviour
 
         return new Vector2(Mathf.Sin(angleIndegrees * Mathf.Deg2Rad), Mathf.Cos(angleIndegrees * Mathf.Deg2Rad));
     }
+#endif
+
 }

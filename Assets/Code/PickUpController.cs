@@ -115,6 +115,7 @@ public class PickUpController : MonoBehaviour
         weapon.GetComponent<Rigidbody2D>().AddForce(weapon.transform.position * 5f);
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (!equiped)
@@ -123,4 +124,5 @@ public class PickUpController : MonoBehaviour
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, pickUpRange);
         }
     }
+#endif
 }

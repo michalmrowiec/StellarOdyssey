@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour
 
     public void UpdateFireRate(bool slowMotionActive)
     {
-        if(slowMotionActive)
+        if (slowMotionActive)
         {
             fireRate = slowMotionFireRate;
         }
@@ -48,6 +48,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         if (drawWeaponLaser)
@@ -57,5 +58,5 @@ public class Weapon : MonoBehaviour
             Gizmos.DrawRay(firePoint.position, direction);
         }
     }
-
+#endif
 }
