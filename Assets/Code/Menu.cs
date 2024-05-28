@@ -7,6 +7,7 @@ public class Menu : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     public GameObject playUi;
+    public GameObject winMenu;
     public bool gamePoused = false;
     public static event Action OnRestartGame;
     public static event Action<bool> OnPauseGame;
@@ -14,6 +15,12 @@ public class Menu : MonoBehaviour
     private void Start()
     {
         Time.timeScale = 1f;
+        ArtifactController.OnPickUpChapter += ChapterCompleted;
+    }
+
+    private void OnDisable()
+    {
+        ArtifactController.OnPickUpChapter -= ChapterCompleted;
     }
 
     void Update()
@@ -40,6 +47,14 @@ public class Menu : MonoBehaviour
             gamePoused = true;
             GameOver();
         }
+    }
+
+    public void ChapterCompleted()
+    {
+        gamePoused = true;
+        OnPauseGame(true);
+        Time.timeScale = 0;
+        winMenu.SetActive(true);
     }
 
     public void MainMenu()

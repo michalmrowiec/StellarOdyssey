@@ -58,7 +58,7 @@ Library: C:\Users\micha\source\unity\StellarOdyssey\Temp\BurstOutput\Data\Plugin
 --assembly-defines=System.Xml;
 --assembly-defines=System;
 --assembly-defines=mscorlib;
---linker-options=PdbAltPath="Stellar Odyssey: Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
+--linker-options=PdbAltPath="Stellar Odyssey Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\micha\source\unity\StellarOdyssey\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
@@ -161,7 +161,7 @@ Library: C:\Users\micha\source\unity\StellarOdyssey\Temp\BurstOutput\Data\Plugin
 --assembly-defines=System.Xml;
 --assembly-defines=System;
 --assembly-defines=mscorlib;
---linker-options=PdbAltPath="Stellar Odyssey: Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
+--linker-options=PdbAltPath="Stellar Odyssey Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\micha\source\unity\StellarOdyssey\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
@@ -266,7 +266,7 @@ Library: C:\Users\micha\source\unity\StellarOdyssey\Temp\BurstOutput\Data\Plugin
 --assembly-defines=System.Xml;
 --assembly-defines=System;
 --assembly-defines=mscorlib;
---linker-options=PdbAltPath="Stellar Odyssey: Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
+--linker-options=PdbAltPath="Stellar Odyssey Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\micha\source\unity\StellarOdyssey\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
@@ -337,7 +337,7 @@ Library: C:\Users\micha\source\unity\StellarOdyssey\Temp\BurstOutput\Data\Plugin
 --assembly-defines=System.Xml;
 --assembly-defines=System;
 --assembly-defines=mscorlib;
---linker-options=PdbAltPath="Stellar Odyssey: Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
+--linker-options=PdbAltPath="Stellar Odyssey Eternals_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\micha\source\unity\StellarOdyssey\Temp\Burst
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.20f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport
