@@ -104,11 +104,13 @@ MonoBehaviour:
   firePoint: {fileID: 6885065787498879013}
   fireForce: 40
   fireRate: 0.2
+  slowMotionFireRate: 2
   nextFireTime: 0
   attackDistance: 2
   drawWeaponLaser: 0
-  currentAmmo: 10
-  maxAmmo: 100
+  currentAmmo: 20
+  maxAmmo: 20
+  lightFlashOnFire: {fileID: 1683066520661002748, guid: 1e5e089607b16844693a4f191e8975c7, type: 3}
 --- !u!114 &-3231488772551741669
 MonoBehaviour:
   m_ObjectHideFlags: 0
