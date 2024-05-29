@@ -54,6 +54,7 @@ public class Menu : MonoBehaviour
         gamePoused = true;
         OnPauseGame(true);
         Time.timeScale = 0;
+        playUi.SetActive(false);
         winMenu.SetActive(true);
     }
 
