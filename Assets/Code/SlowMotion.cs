@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class SlowMotion : MonoBehaviour
@@ -10,22 +11,53 @@ public class SlowMotion : MonoBehaviour
     private float originalFixedDeltaTime;
     private float originalPlayerMoveSpeed;
     public Vector2 playerVelocity;
+    public TextMeshProUGUI slowMotionTimeText;
+    public float slowMotionTime = 5f;
+    private bool gamePaused = false;
 
     public static event Action<bool> OnSlowMotionChanged;
 
     private void OnEnable()
     {
         Menu.OnRestartGame += ResumeTime;
+        Menu.OnPauseGame += GamePausedUpdate;
+    }
+
+    private void OnDisable()
+    {
+        Menu.OnRestartGame -= ResumeTime;
+        Menu.OnPauseGame += GamePausedUpdate;
+    }
+
+    private void Start()
+    {
+        slowMotionTimeText.text = Mathf.Round(slowMotionTime).ToString();
+    }
+
+    private void GamePausedUpdate(bool isPaused)
+    {
+        gamePaused = isPaused;
     }
 
     void Update()
     {
-        if (isSlowMotionActive)
+
+        if (slowMotionTime <= 0)
         {
-            player.GetComponent<PlayerController>().moveSpeed = slowMotionPlayerMoveSpeed;
+            player.GetComponent<PlayerController>().moveSpeed = originalPlayerMoveSpeed;
+            ResumeTime();
+            return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isSlowMotionActive && !gamePaused)
+        {
+            player.GetComponent<PlayerController>().moveSpeed = slowMotionPlayerMoveSpeed;
+
+            slowMotionTime -= Time.unscaledDeltaTime;
+            slowMotionTimeText.text = Mathf.Round(slowMotionTime).ToString();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && slowMotionTime > 0)
         {
             if (isSlowMotionActive)
             {

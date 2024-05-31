@@ -7,12 +7,20 @@ public class Menu : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     public GameObject playUi;
+    public GameObject winMenu;
     public bool gamePoused = false;
     public static event Action OnRestartGame;
+    public static event Action<bool> OnPauseGame;
 
     private void Start()
     {
         Time.timeScale = 1f;
+        ArtifactController.OnPickUpChapter += ChapterCompleted;
+    }
+
+    private void OnDisable()
+    {
+        ArtifactController.OnPickUpChapter -= ChapterCompleted;
     }
 
     void Update()
@@ -41,6 +49,15 @@ public class Menu : MonoBehaviour
         }
     }
 
+    public void ChapterCompleted()
+    {
+        gamePoused = true;
+        OnPauseGame(true);
+        Time.timeScale = 0;
+        playUi.SetActive(false);
+        winMenu.SetActive(true);
+    }
+
     public void MainMenu()
     {
         SceneManager.LoadSceneAsync(0);
@@ -49,6 +66,7 @@ public class Menu : MonoBehaviour
 
     public void PauseGame()
     {
+        OnPauseGame(true);
         Time.timeScale = 0;
         playUi.SetActive(false);
         pauseMenu.SetActive(true);
@@ -63,6 +81,7 @@ public class Menu : MonoBehaviour
 
     public void ResumeGame()
     {
+        OnPauseGame(false);
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         gamePoused = false;
@@ -78,6 +97,7 @@ public class Menu : MonoBehaviour
     {
         OnRestartGame();
         //Time.timeScale = 1;
+        //gamePoused = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

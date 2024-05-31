@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(!sceneCamera.GetComponent<Menu>().gamePoused)
+        if (!sceneCamera.GetComponent<Menu>().gamePoused)
         {
             PrecessInputs();
 
@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
 
         if (healthPoints <= 0)
         {
+            rb.velocity = Vector2.zero;
+            rb.isKinematic = true;
+            GetComponent<Collider2D>().enabled = false;
             //gameObject.SetActive(false);
             //Destroy(gameObject);
         }
