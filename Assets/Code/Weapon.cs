@@ -16,9 +16,12 @@ public class Weapon : MonoBehaviour
     private float fireRateOriginal;
     public GameObject lightFlashOnFire;
     private float lightFlashOnFireSpeed;
+    private AudioMenager audioMenager;
 
     private void Start()
     {
+        audioMenager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioMenager>();
+
         fireRateOriginal = fireRate;
         lightFlashOnFireSpeed = 1;
     }
@@ -28,6 +31,8 @@ public class Weapon : MonoBehaviour
         if (Time.time > nextFireTime
             && currentAmmo > 0)
         {
+            audioMenager.PlaySFX(audioMenager.shootSound);
+
             Vector3 offset = new Vector3(0, -0.2f);
             offset = firePoint.rotation * offset;
             Vector2 positionOfFireFlash = firePoint.position + offset;
