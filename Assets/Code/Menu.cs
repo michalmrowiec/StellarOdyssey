@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour
     public static event Action OnRestartGame;
     public static event Action<bool> OnPauseGame;
     private AudioMenager audioMenager;
+    private float timeScaleTemp = 1f;
 
     private void Start()
     {
@@ -64,10 +65,12 @@ public class Menu : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(0);
         Time.timeScale = 1;
+        timeScaleTemp = 1f;
     }
 
     public void PauseGame()
     {
+        timeScaleTemp = Time.timeScale;
         OnPauseGame(true);
         Time.timeScale = 0;
         playUi.SetActive(false);
@@ -84,7 +87,8 @@ public class Menu : MonoBehaviour
     public void ResumeGame()
     {
         OnPauseGame(false);
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
+        Time.timeScale = timeScaleTemp;
         pauseMenu.SetActive(false);
         gamePoused = false;
         playUi.SetActive(true);
