@@ -121,10 +121,6 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
-
-
-
-
         stateMachine[enemyState].Invoke();
     }
 
@@ -210,6 +206,11 @@ public class EnemyController : MonoBehaviour
         if (healthPoints <= 0)
         {
             Die();
+        }
+        else
+        {
+            NoticedPlayerAgent();
+            enemyState = EnemyState.ChasePlayer;
         }
     }
 
