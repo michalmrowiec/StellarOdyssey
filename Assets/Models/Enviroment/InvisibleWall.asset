@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: InvisibleWall
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 7482667652216324306, guid: b1b6c0c2dbd462f4e8afd4b8e910b1c5, type: 3}
-  m_Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.015686275}
+  m_Color: {r: 0, g: 0.25949383, b: 0.4415095, a: 0.09803922}
   m_Transform:
     e00: 1
     e01: 0

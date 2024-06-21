@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   innerRadius: 0.5
-  radius: 10
+  radius: 12
   angle: 120
   targetLayer:
     serializedVersion: 2
@@ -230,7 +230,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 640
   playerRef: {fileID: 0}
-  objs: []
 --- !u!195 &4149194354400731141
 NavMeshAgent:
   m_ObjectHideFlags: 0

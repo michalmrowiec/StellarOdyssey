@@ -35,7 +35,7 @@ public class ArtifactController : MonoBehaviour
 
             if (closestTarget != null)
             {
-                Vector2 directionToTarget = (closestTarget.position - transform.position).normalized;
+                Vector2 directionToTarget = (closestTarget.position - transform.position);
 
                 if (!Physics2D.Raycast(transform.position, directionToTarget, closestDistance, obstructionLayer))
                     if (directionToTarget.sqrMagnitude <= pickUpRange

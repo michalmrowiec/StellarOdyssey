@@ -14,6 +14,7 @@ public class SlowMotion : MonoBehaviour
     public TextMeshProUGUI slowMotionTimeText;
     public float slowMotionTime = 5f;
     private bool gamePaused = false;
+    public GameObject spellEffect;
 
     public static event Action<bool> OnSlowMotionChanged;
 
@@ -73,6 +74,7 @@ public class SlowMotion : MonoBehaviour
 
     void ActivateSlowMotion()
     {
+        spellEffect.SetActive(true);
         originalFixedDeltaTime = Time.fixedDeltaTime;
         originalPlayerMoveSpeed = player.GetComponent<PlayerController>().moveSpeed;
 
@@ -84,6 +86,7 @@ public class SlowMotion : MonoBehaviour
 
     void ResumeTime()
     {
+        spellEffect.SetActive(false);
         Time.timeScale = 1f;
         Time.fixedDeltaTime = originalFixedDeltaTime;
         isSlowMotionActive = false;

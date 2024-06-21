@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 953176514734251165, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
       propertyPath: m_Name
-      value: Enemy Variant 1 (5) Variant
+      value: Enemy Variant 2
       objectReference: {fileID: 0}
     - target: {fileID: 1592970696115205647, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
       propertyPath: m_LocalPosition.x
@@ -79,6 +79,26 @@ PrefabInstance:
     - target: {fileID: 1592970696115205647, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 17.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542964211272662492, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
+      propertyPath: chaseSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542964211272662492, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
+      propertyPath: healthPoints
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542964211272662492, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
+      propertyPath: rotationSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542964211272662492, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
+      propertyPath: investigateSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7542964211272662492, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
+      propertyPath: timeToInvestigate
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
