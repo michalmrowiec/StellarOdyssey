@@ -11,11 +11,13 @@ public class Menu : MonoBehaviour
     public bool gamePoused = false;
     public static event Action OnRestartGame;
     public static event Action<bool> OnPauseGame;
+    private AudioMenager audioMenager;
 
     private void Start()
     {
         Time.timeScale = 1f;
         ArtifactController.OnPickUpChapter += ChapterCompleted;
+        audioMenager = FindObjectOfType<AudioMenager>();
     }
 
     private void OnDisable()

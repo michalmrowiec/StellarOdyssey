@@ -14,10 +14,13 @@ public class PlayerController : MonoBehaviour
     public Vector2 weaponOffset;
     public bool drawWeaponOffsetGizmo = false;
     public Vector2 playerVelocity;
+    private AudioMenager audioMenager;
+    private bool isDead = false;  // Flag to check if the player is dead
 
     private void Start()
     {
         weaponOwner = GetComponentInChildren<WeaponOwner>();
+        audioMenager = FindObjectOfType<AudioMenager>();
     }
 
     void Update()
@@ -39,13 +42,20 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int damage = 1)
     {
+        if (isDead) return;  // If already dead, don't take more damage
+
         healthPoints -= damage;
 
         if (healthPoints <= 0)
         {
+            isDead = true;  // Set flag to indicate player is dead
             rb.velocity = Vector2.zero;
             rb.isKinematic = true;
             GetComponent<Collider2D>().enabled = false;
+
+            // Play death sound effect
+            audioMenager.PlaySFX(audioMenager.smierc2);
+
             //gameObject.SetActive(false);
             //Destroy(gameObject);
         }
@@ -84,5 +94,4 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawSphere(vector3, 0.1f);
         }
     }
-
 }

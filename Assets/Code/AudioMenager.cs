@@ -9,10 +9,13 @@ public class AudioMenager : MonoBehaviour
     [Header("----- Audio Clip -----")]
     public AudioClip background;
     public AudioClip shootSound;
+    public AudioClip smierc;
+    public AudioClip smierc2;
+
 
     private void Start() {
         musicSource.clip = background;
-        musicSource.Play();
+        // musicSource.Play();
     }
 
     public void PlaySFX(AudioClip clip) {

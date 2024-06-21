@@ -37,9 +37,12 @@ public class EnemyController : MonoBehaviour
     private Dictionary<EnemyState, Action> stateMachine;
     private PatrolController patrolController;
     private List<GameObject> investigatedBodies = new();
+    private AudioMenager audioMenager;
 
     void Start()
     {
+        audioMenager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioMenager>();
+
         rb = GetComponent<Rigidbody2D>();
         fov = GetComponent<FieldOfView>();
         weaponOwner = GetComponentInChildren<WeaponOwner>();
@@ -168,6 +171,7 @@ public class EnemyController : MonoBehaviour
 
         agent.speed = chaseSpeed;
         agent.destination = fov.playerRef.transform.position;
+        
 
         if (agent.remainingDistance <= weaponOwner.weapon.attackDistance)
         {
@@ -211,6 +215,7 @@ public class EnemyController : MonoBehaviour
 
     void Die()
     {
+        audioMenager.PlaySFX(audioMenager.smierc);
         agent.enabled = false;
         rb.isKinematic = true;
         this.enabled = false;
@@ -219,6 +224,7 @@ public class EnemyController : MonoBehaviour
         this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
         weaponOwner.weapon.GetComponent<PickUpController>().Drop();
         GetComponent<Animator>().SetTrigger("Dead");
+
     }
 }
 
