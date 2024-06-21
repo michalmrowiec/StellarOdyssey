@@ -176,13 +176,13 @@ TextureImporter:
       name: Sprites_Enviroment_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 97
         y: 288
-        width: 32
+        width: 31
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 1, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -200,10 +200,10 @@ TextureImporter:
         x: 128
         y: 288
         width: 32
-        height: 29
+        height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 2, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -218,9 +218,9 @@ TextureImporter:
       name: Sprites_Enviroment_5
       rect:
         serializedVersion: 2
-        x: 160
+        x: 188
         y: 288
-        width: 32
+        width: 4
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -241,7 +241,7 @@ TextureImporter:
         serializedVersion: 2
         x: 192
         y: 288
-        width: 32
+        width: 31
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -386,13 +386,13 @@ TextureImporter:
       name: Sprites_Enviroment_13
       rect:
         serializedVersion: 2
-        x: 96
-        y: 276
-        width: 32
-        height: 12
+        x: 97
+        y: 273
+        width: 31
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 1, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -413,7 +413,7 @@ TextureImporter:
         height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 2, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -451,11 +451,11 @@ TextureImporter:
         serializedVersion: 2
         x: 189
         y: 256
-        width: 35
+        width: 34
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 1, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -638,10 +638,10 @@ TextureImporter:
       name: Sprites_Enviroment_25
       rect:
         serializedVersion: 2
-        x: 256
+        x: 258
         y: 224
-        width: 32
-        height: 32
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -662,7 +662,7 @@ TextureImporter:
         x: 288
         y: 224
         width: 32
-        height: 32
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -722,10 +722,10 @@ TextureImporter:
       name: Sprites_Enviroment_29
       rect:
         serializedVersion: 2
-        x: 64
-        y: 192
-        width: 32
-        height: 32
+        x: 69
+        y: 200
+        width: 16
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -785,9 +785,9 @@ TextureImporter:
       name: Sprites_Enviroment_32
       rect:
         serializedVersion: 2
-        x: 256
+        x: 258
         y: 192
-        width: 32
+        width: 30
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -932,9 +932,9 @@ TextureImporter:
       name: Sprites_Enviroment_39
       rect:
         serializedVersion: 2
-        x: 256
+        x: 258
         y: 160
-        width: 32
+        width: 30
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1746,6 +1746,8 @@ TextureImporter:
       Sprites_Enviroment_71: -2074306269
       Sprites_Enviroment_72: -1086137046
       Sprites_Enviroment_73: 88027708
+      Sprites_Enviroment_74: 835211980
+      Sprites_Enviroment_75: 1834290242
       Sprites_Enviroment_8: -95821021
       Sprites_Enviroment_9: -1612364317
   mipmapLimitGroupName: 
