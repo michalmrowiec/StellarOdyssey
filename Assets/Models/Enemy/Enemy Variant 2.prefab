@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: timeToInvestigate
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 9043386483748956029, guid: 3d777d159c9a301409ba21b4fe624508, type: 3}
+      propertyPath: radius
+      value: 5.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

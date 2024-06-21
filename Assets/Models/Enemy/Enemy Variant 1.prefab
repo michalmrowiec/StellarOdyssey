@@ -180,7 +180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1946666402106193052, guid: 431ad6541432e2c4faff8f77c8f090bb, type: 3}
       propertyPath: radius
-      value: 5.6
+      value: 5.2
       objectReference: {fileID: 0}
     - target: {fileID: 1946666402106193052, guid: 431ad6541432e2c4faff8f77c8f090bb, type: 3}
       propertyPath: innerRadius
