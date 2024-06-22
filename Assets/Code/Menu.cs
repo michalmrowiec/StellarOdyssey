@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameOverMenu.activeInHierarchy)
         {
             if (pauseMenu.activeInHierarchy)
             {

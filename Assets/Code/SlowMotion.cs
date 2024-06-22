@@ -16,7 +16,7 @@ public class SlowMotion : MonoBehaviour
     private bool gamePaused = false;
     public GameObject spellEffect;
 
-    public static event Action<bool> OnSlowMotionChanged;
+    public static Action<bool> OnSlowMotionChanged;
 
     private void OnEnable()
     {
@@ -90,7 +90,7 @@ public class SlowMotion : MonoBehaviour
         Time.timeScale = 1f;
         Time.fixedDeltaTime = originalFixedDeltaTime;
         isSlowMotionActive = false;
-        OnSlowMotionChanged(false);
+        OnSlowMotionChanged?.Invoke(false);
     }
 
     private void FixedUpdate()
